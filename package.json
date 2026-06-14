@@ -1,6 +1,6 @@
 {
   "name": "vijgen-proxy",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Shopify API proxy for Vijgen Command Center",
   "main": "server.js",
   "scripts": { "start": "node server.js" },
