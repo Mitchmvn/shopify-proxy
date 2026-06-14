@@ -479,30 +479,52 @@ function fmt(n) { return '€' + Math.round(n).toLocaleString('nl-NL'); }
 function fmtD(n) { return '€' + Number(n).toFixed(2).replace('.', ','); }
 function cc(o) { return ((o.shipping_address && o.shipping_address.country_code) || (o.billing_address && o.billing_address.country_code) || '??').toUpperCase(); }
 
+async function fetchWithTimeout(url, ms) {
+  const ctrl = new AbortController();
+  const tid = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(tid);
+    return r;
+  } catch(e) {
+    clearTimeout(tid);
+    throw e;
+  }
+}
+
 async function loadData() {
   const days = g('days-sel') ? parseInt(g('days-sel').value) : currentDays;
   currentDays = days;
+  const overlay = g('loading-overlay');
+  const msgEl = g('loading-msg');
+  if(overlay) overlay.style.display = 'flex';
+  if(msgEl) msgEl.textContent = 'Orders ophalen...';
   try {
-    g('loading-overlay').style.display = 'flex';
-    g('loading-msg').textContent = 'Orders ophalen...';
-    const [oRes, pRes] = await Promise.all([
-      fetch('/orders?days=' + days),
-      fetch('/products')
-    ]);
-    if (!oRes.ok) { const e = await oRes.json(); throw new Error(e.error || 'Status ' + oRes.status); }
+    const oRes = await fetchWithTimeout('/orders?days=' + days, 30000);
+    if(msgEl) msgEl.textContent = 'Producten ophalen...';
+    const pRes = await fetchWithTimeout('/products', 30000);
+    if (!oRes.ok) {
+      const e = await oRes.json().catch(() => ({error: 'Status ' + oRes.status}));
+      throw new Error(e.error || 'Status ' + oRes.status);
+    }
     const oJson = await oRes.json();
     const pJson = await pRes.json();
     D = { orders: oJson.orders || [], products: pJson.products || [], days };
-    g('loading-overlay').style.display = 'none';
+    if(overlay) overlay.style.display = 'none';
     set('conn-label', 'Live');
-    g('conn-dot').style.background = '#1D9E75';
+    const dot = g('conn-dot'); if(dot) dot.style.background = '#1D9E75';
     set('conn-info', D.orders.length + ' orders · ' + days + 'd');
     processAll();
   } catch(e) {
-    g('loading-overlay').style.display = 'none';
-    set('conn-label', 'Fout: ' + e.message);
-    g('conn-dot').style.background = '#c00';
-    console.error(e);
+    if(overlay) overlay.style.display = 'none';
+    set('conn-label', e.name === 'AbortError' ? 'Timeout' : 'Fout');
+    const dot = g('conn-dot'); if(dot) dot.style.background = '#c00';
+    const errDiv = document.createElement('div');
+    errDiv.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#fce4ec;color:#b71c1c;padding:12px 16px;border-radius:8px;font-size:12px;z-index:999;max-width:320px;';
+    errDiv.textContent = 'Fout: ' + (e.name === 'AbortError' ? 'Shopify reageert te traag. Probeer opnieuw.' : e.message);
+    document.body.appendChild(errDiv);
+    setTimeout(() => errDiv.remove(), 8000);
+    console.error('loadData error:', e);
   }
 }
 
