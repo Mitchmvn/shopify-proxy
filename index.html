@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vijgen Command Center</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f4;color:#1a1a19;height:100vh;overflow:hidden}
+.app{display:flex;height:100vh}
+.sb{width:196px;flex-shrink:0;background:#fff;border-right:1px solid #e5e5e3;display:flex;flex-direction:column;overflow-y:auto}
+.logo{padding:.875rem 1.125rem;border-bottom:1px solid #e5e5e3}
+.logo-n{font-size:14px;font-weight:700;color:#1a1a19}
+.logo-s{font-size:10px;color:#999;margin-top:2px}
+.nv{font-size:9px;font-weight:700;color:#bbb;letter-spacing:.07em;text-transform:uppercase;padding:.625rem .75rem .15rem}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 1.125rem;font-size:12px;color:#555;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.ni:hover{background:#f5f5f4;color:#1a1a19}
+.ni.on{background:#f0f0ef;color:#1a1a19;font-weight:600;border-left:2px solid #185FA5;padding-left:calc(1.125rem - 2px)}
+.ni i{font-size:14px}
+.sb-ft{margin-top:auto;padding:.75rem 1.125rem;border-top:1px solid #e5e5e3}
+.mn{flex:1;overflow-y:auto;padding:1.25rem;background:#f5f5f4}
+.s{display:none}.s.on{display:block}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.875rem}
+.pt{font-size:15px;font-weight:700;color:#1a1a19}
+.ps{font-size:11px;color:#888;margin-top:2px}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:.875rem}
+.mc{background:#fff;border:1px solid #e5e5e3;border-radius:10px;padding:.75rem .875rem}
+.ml{font-size:10px;color:#888;margin-bottom:3px}
+.mv{font-size:20px;font-weight:700;color:#1a1a19;line-height:1}
+.ms{font-size:10px;color:#bbb;margin-top:3px}
+.mv.pos{color:#0a6e3e}.mv.neg{color:#c00}.mv.warn{color:#b45}
+.cd{background:#fff;border:1px solid #e5e5e3;border-radius:10px;padding:.875rem 1.125rem;margin-bottom:.75rem}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.ct{font-size:12px;font-weight:700;color:#1a1a19;display:flex;align-items:center;gap:5px}
+.ct i{font-size:13px;color:#888}
+.tw{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.pl{display:inline-flex;align-items:center;font-size:10px;padding:2px 7px;border-radius:7px;font-weight:600}
+.pl-g{background:#e8f5e9;color:#2e7d32}
+.pl-w{background:#fff3e0;color:#e65100}
+.pl-r{background:#fce4ec;color:#c62828}
+.pl-b{background:#e3f2fd;color:#1565c0}
+.pl-m{background:#f5f5f4;color:#999}
+.pl-nl{background:#e3f2fd;color:#0d47a1}
+.pl-be{background:#e8f5e9;color:#1b5e20}
+.rw{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0ef;font-size:11px}
+.rw:last-child{border-bottom:none;padding-bottom:0}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:7px;border:1px solid #ddd;background:#fff;color:#1a1a19;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600}
+.btn:hover{background:#f5f5f4}
+.btn-p{background:#185FA5;color:#fff;border-color:#185FA5}
+.btn-p:hover{background:#0c4480}
+.ir{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.il{font-size:11px;color:#666;width:120px;flex-shrink:0}
+.ir input{flex:1;font-size:12px;padding:6px 9px;border-radius:7px;border:1px solid #ddd;background:#fafafa;color:#1a1a19;font-family:inherit}
+.ab{padding:8px 11px;border-radius:8px;font-size:11px;margin-bottom:6px;display:flex;align-items:flex-start;gap:7px;line-height:1.5}
+.ab i{font-size:13px;flex-shrink:0;margin-top:1px}
+.ab-r{background:#fce4ec;color:#b71c1c}
+.ab-g{background:#e8f5e9;color:#1b5e20}
+.ab-b{background:#e3f2fd;color:#0d47a1}
+.ab-w{background:#fff3e0;color:#e65100}
+.bw{flex:1;height:5px;background:#f0f0ef;border-radius:3px;overflow:hidden;margin:0 8px}
+.bf{height:100%;border-radius:3px}
+.og{display:grid;grid-template-columns:56px 1fr 34px 68px 72px 52px;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0ef;font-size:11px}
+.og:last-child{border-bottom:none}
+.oh{font-size:10px;font-weight:600;color:#888}
+.conn-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.kpi-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:#f8f9fa;margin-bottom:4px}
+.kpi-n{font-size:11px;font-weight:600;width:145px;flex-shrink:0}
+.kpi-t{flex:1;height:5px;background:#e5e5e3;border-radius:3px;overflow:hidden}
+.kpi-f{height:100%;border-radius:3px}
+.kpi-v{font-size:11px;font-weight:700;min-width:38px;text-align:right}
+.kpi-g{font-size:10px;color:#bbb;min-width:56px;text-align:right}
+.dv{border:none;border-top:1px solid #f0f0ef;margin:.75rem 0}
+.scale-b{background:#f8f9fa;border-radius:8px;padding:9px 11px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:12px}
+.spin{width:24px;height:24px;border:3px solid #e5e5e3;border-top-color:#185FA5;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div id="overlay" class="overlay">
+  <div class="spin"></div>
+  <div id="overlay-msg" style="font-size:13px;color:#555;">Verbinding maken met Shopify...</div>
+</div>
+
+<div class="app">
+  <aside class="sb">
+    <div class="logo">
+      <div class="logo-n">Vijgen OS</div>
+      <div class="logo-s">€70k → €1M+</div>
+    </div>
+    <span class="nv">Command</span>
+    <button class="ni on" onclick="nav('dashboard')" id="n-dashboard"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
+    <button class="ni" onclick="nav('scale')" id="n-scale"><i class="ti ti-rocket"></i>Scaling engine</button>
+    <button class="ni" onclick="nav('kpi')" id="n-kpi"><i class="ti ti-target"></i>KPI targets</button>
+    <span class="nv">Finance</span>
+    <button class="ni" onclick="nav('finance')" id="n-finance"><i class="ti ti-coin"></i>P&amp;L &amp; cashflow</button>
+    <button class="ni" onclick="nav('ads')" id="n-ads"><i class="ti ti-speakerphone"></i>Ads &amp; ROAS</button>
+    <span class="nv">Operaties</span>
+    <button class="ni" onclick="nav('orders')" id="n-orders"><i class="ti ti-shopping-cart"></i>Orders</button>
+    <button class="ni" onclick="nav('countries')" id="n-countries"><i class="ti ti-world"></i>Per land</button>
+    <button class="ni" onclick="nav('products')" id="n-products"><i class="ti ti-chart-bar"></i>Producten</button>
+    <button class="ni" onclick="nav('fulfillment')" id="n-fulfillment"><i class="ti ti-truck"></i>Fulfillment</button>
+    <button class="ni" onclick="nav('service')" id="n-service"><i class="ti ti-message-circle"></i>Klantenservice</button>
+    <button class="ni" onclick="nav('listings')" id="n-listings"><i class="ti ti-tag"></i>Listings</button>
+    <button class="ni" onclick="nav('bugs')" id="n-bugs"><i class="ti ti-bug"></i>Bugs &amp; fixes</button>
+    <div class="sb-ft">
+      <div style="font-size:10px;color:#555;display:flex;align-items:center;">
+        <span class="conn-dot" id="conn-dot" style="background:#ccc"></span>
+        <span id="conn-label">Laden...</span>
+      </div>
+      <div style="font-size:10px;color:#bbb;margin-top:2px" id="conn-info"></div>
+      <button class="btn" onclick="loadData()" style="margin-top:6px;font-size:10px;padding:4px 8px;width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Vernieuwen</button>
+    </div>
+  </aside>
+
+  <main class="mn">
+
+    <div class="s on" id="s-dashboard">
+      <div class="ph">
+        <div><div class="pt">Dashboard</div><div class="ps" id="dash-sub">Live Shopify data</div></div>
+        <div style="display:flex;gap:5px;">
+          <div style="display:flex;gap:2px;background:#f0f0ef;padding:2px;border-radius:7px;">
+            <button class="btn" style="padding:3px 9px;font-size:11px;" onclick="filterC('all')">Totaal</button>
+            <button class="btn" style="padding:3px 9px;font-size:11px;border:none;background:none;" onclick="filterC('NL')">NL</button>
+            <button class="btn" style="padding:3px 9px;font-size:11px;border:none;background:none;" onclick="filterC('BE')">BE</button>
+          </div>
+          <select id="days-sel" onchange="loadData()" style="font-size:11px;padding:4px 8px;border-radius:7px;border:1px solid #ddd;background:#fff;">
+            <option value="30">30 dagen</option>
+            <option value="7">7 dagen</option>
+            <option value="60">60 dagen</option>
+            <option value="90">90 dagen</option>
+          </select>
+        </div>
+      </div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Omzet</div><div class="mv" id="d-omzet">—</div><div class="ms" id="d-omzet-s">—</div></div>
+        <div class="mc"><div class="ml">Nettowinst</div><div class="mv pos" id="d-winst">—</div><div class="ms" id="d-marge">—</div></div>
+        <div class="mc"><div class="ml">Orders</div><div class="mv" id="d-orders">—</div><div class="ms" id="d-orders-s">—</div></div>
+        <div class="mc"><div class="ml">Gem. order</div><div class="mv" id="d-aov">—</div><div class="ms">per bestelling</div></div>
+        <div class="mc"><div class="ml">Klanten</div><div class="mv" id="d-klanten">—</div><div class="ms">uniek</div></div>
+        <div class="mc"><div class="ml">Retouren</div><div class="mv" id="d-refunds">—</div><div class="ms" id="d-refunds-s">—</div></div>
+      </div>
+      <div class="tw">
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-world"></i>NL vs BE</div></div>
+          <div id="nl-be-bars"><div style="font-size:11px;color:#bbb">Laden...</div></div>
+        </div>
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-chart-pie"></i>Status verdeling</div></div>
+          <div style="position:relative;height:140px;"><canvas id="statusChart"></canvas></div>
+          <div id="status-legend" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:10px;color:#777;"></div>
+        </div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-chart-line"></i>Omzet per dag</div></div>
+        <div style="position:relative;height:155px;"><canvas id="trendChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="s" id="s-scale">
+      <div class="ph"><div><div class="pt">Scaling engine</div><div class="ps">Van €70k naar €1M+</div></div></div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-rocket"></i>Jouw traject</div></div>
+        <div class="scale-b" style="background:#f0f7ff;border:1px solid #b3d4f5;">
+          <div style="width:9px;height:9px;border-radius:50%;background:#185FA5;flex-shrink:0"></div>
+          <div style="flex:1;font-size:12px;"><strong style="color:#185FA5">Je zit hier — €30k-€100k/maand</strong><br><span style="color:#555;font-size:11px;">Op €70k. Nog €30k naar het eerste milestone.</span></div>
+          <div style="font-size:13px;font-weight:700;color:#185FA5">70%</div>
+        </div>
+        <div class="scale-b"><div style="width:9px;height:9px;border-radius:50%;background:#ef9f27;flex-shrink:0"></div><div style="flex:1;font-size:11px;"><strong>Volgende: €100k-€300k/maand</strong><br><span style="color:#555">Live Ads API + CS tool + winnaar systeem</span></div></div>
+        <div class="scale-b"><div style="width:9px;height:9px;border-radius:50%;background:#1D9E75;flex-shrink:0"></div><div style="flex:1;font-size:11px;"><strong>Later: €300k-€1M+/maand</strong><br><span style="color:#555">Multi-store + private label + AI team OS</span></div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-list-check"></i>Acties voor deze week</div></div>
+        <div class="ab ab-g"><i class="ti ti-trending-up"></i><div><strong>Meta budget +40% op top winnaar</strong> — ROAS stabiel boven 4x? Verhoog wekelijks budget 30-40%.</div></div>
+        <div class="ab ab-r"><i class="ti ti-ad-off"></i><div><strong>Pauzeer campagnes onder 2x ROAS direct</strong> — budget herplaatsen naar winnaars.</div></div>
+        <div class="ab ab-w"><i class="ti ti-flask"></i><div><strong>Start 2-3 nieuwe producttests</strong> — €150 testbudget, 7 dagen, drempel 2,5x ROAS.</div></div>
+        <div class="ab ab-w"><i class="ti ti-headset"></i><div><strong>CS tool instellen voor €100k</strong> — Gorgias koppelen, AI beantwoordt 80% automatisch.</div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-stairs"></i>Mijlpalen</div></div>
+        <div class="rw"><span class="pl pl-b">€100k</span><span style="flex:1;padding-left:8px;font-size:11px;">Live Ads API — Meta + Google via WeTracked</span></div>
+        <div class="rw"><span class="pl pl-b">€100k</span><span style="flex:1;padding-left:8px;font-size:11px;">Gorgias CS — WhatsApp onschaalbaar bij 300+ orders/dag</span></div>
+        <div class="rw"><span class="pl pl-b">€150k</span><span style="flex:1;padding-left:8px;font-size:11px;">Tweede markt DE of FR — multifeed uitrollen</span></div>
+        <div class="rw"><span class="pl pl-b">€200k</span><span style="flex:1;padding-left:8px;font-size:11px;">Tweede dropship store of niche store</span></div>
+        <div class="rw"><span class="pl pl-b">€300k</span><span style="flex:1;padding-left:8px;font-size:11px;">Private label top 3 producten — marge naar 45%+</span></div>
+        <div class="rw" style="border:none;"><span class="pl pl-b">€500k+</span><span style="flex:1;padding-left:8px;font-size:11px;">Brand + dropship portfolio — underwear brand als anker</span></div>
+      </div>
+    </div>
+
+    <div class="s" id="s-kpi">
+      <div class="ph"><div><div class="pt">KPI targets</div><div class="ps">Live performance vs doelen</div></div></div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-target"></i>Financieel</div></div>
+        <div class="kpi-row"><span class="kpi-n">Maandomzet</span><div class="kpi-t"><div class="kpi-f" id="kpi-omzet-bar" style="background:#185FA5;width:0%"></div></div><span class="kpi-v" id="kpi-omzet-val" style="color:#185FA5">—</span><span class="kpi-g">doel: €100k</span></div>
+        <div class="kpi-row"><span class="kpi-n">Nettomarge</span><div class="kpi-t"><div class="kpi-f" id="kpi-marge-bar" style="background:#ef9f27;width:0%"></div></div><span class="kpi-v" id="kpi-marge-val" style="color:#b45">—</span><span class="kpi-g">doel: 25%</span></div>
+        <div class="kpi-row"><span class="kpi-n">Retourrate</span><div class="kpi-t"><div class="kpi-f" id="kpi-retour-bar" style="background:#1D9E75;width:0%"></div></div><span class="kpi-v" id="kpi-retour-val">—</span><span class="kpi-g">max: 8%</span></div>
+      </div>
+      <div class="tw">
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-speakerphone"></i>Ads KPI's</div></div>
+          <div class="kpi-row"><span class="kpi-n">ROAS totaal</span><div class="kpi-t"><div class="kpi-f" style="width:100%;background:#1D9E75"></div></div><span class="kpi-v" style="color:#0a6e3e">3,6x</span><span class="kpi-g">doel: 3,5x</span></div>
+          <div class="kpi-row"><span class="kpi-n">Meta ROAS</span><div class="kpi-t"><div class="kpi-f" style="width:100%;background:#1D9E75"></div></div><span class="kpi-v" style="color:#0a6e3e">4,2x</span><span class="kpi-g">doel: 3,5x</span></div>
+          <div class="kpi-row"><span class="kpi-n">Google ROAS</span><div class="kpi-t"><div class="kpi-f" style="width:54%;background:#ef9f27"></div></div><span class="kpi-v" style="color:#b45">2,7x</span><span class="kpi-g">doel: 3x</span></div>
+          <div class="kpi-row"><span class="kpi-n">CPA</span><div class="kpi-t"><div class="kpi-f" style="width:82%;background:#185FA5"></div></div><span class="kpi-v" style="color:#185FA5">€21,90</span><span class="kpi-g">max: €25</span></div>
+        </div>
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-calendar"></i>Tijdlijn</div></div>
+          <div class="rw"><span style="font-weight:700;width:80px;font-size:11px;">3 maanden</span><span style="font-size:11px;color:#555;flex:1">€100k · 25% marge · CS geautomatiseerd</span></div>
+          <div class="rw"><span style="font-weight:700;width:80px;font-size:11px;">6 maanden</span><span style="font-size:11px;color:#555;flex:1">€180k · 2e markt · 10+ winnaars</span></div>
+          <div class="rw"><span style="font-weight:700;width:80px;font-size:11px;">12 maanden</span><span style="font-size:11px;color:#555;flex:1">€300k · brand live · private label</span></div>
+          <div class="rw" style="border:none;"><span style="font-weight:700;width:80px;font-size:11px;">24 maanden</span><span style="font-size:11px;color:#555;flex:1">€1M+ · portfolio · team OS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s" id="s-finance">
+      <div class="ph"><div><div class="pt">P&amp;L &amp; cashflow</div><div class="ps">Live omzet + jouw kosten</div></div></div>
+      <div class="tw">
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-pencil"></i>Kosten invoeren</div><button class="btn btn-p" style="font-size:10px;" onclick="calcPL()">Bereken</button></div>
+          <div class="ab ab-g" id="live-omzet-box"><i class="ti ti-shopping-cart"></i> Live omzet laden...</div>
+          <div style="margin-top:8px;">
+            <div class="ir"><span class="il">Inkoop / COGS</span><input type="number" id="pl-inkoop" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Meta Ads</span><input type="number" id="pl-meta" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Google Ads</span><input type="number" id="pl-google" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Shopify + apps</span><input type="number" id="pl-shopify" placeholder="420" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Overige kosten</span><input type="number" id="pl-overig" placeholder="0" oninput="calcPL()"></div>
+          </div>
+          <div class="dv"></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;"><span>Nettowinst</span><span id="pl-winst" style="color:#0a6e3e">—</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#777;margin-top:3px;"><span>Marge</span><span id="pl-marge">—</span></div>
+        </div>
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-cash"></i>Schaalbudget</div></div>
+          <div class="mc" style="margin-bottom:7px;"><div class="ml">Beschikbare cashflow</div><div class="mv" id="cf-total">—</div></div>
+          <div class="mc" style="margin-bottom:7px;"><div class="ml">Veilig investeren (60%)</div><div class="mv pos" id="cf-invest">—</div><div class="ms">ads + nieuwe producten</div></div>
+          <div class="mc"><div class="ml">Reserve (40%)</div><div class="mv" id="cf-reserve">—</div></div>
+          <div class="dv"></div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:7px;">Projectie +20%/maand</div>
+          <div class="rw"><span style="font-size:11px;color:#777">Maand 1</span><span class="pl pl-b" id="proj1">—</span></div>
+          <div class="rw"><span style="font-size:11px;color:#777">Maand 2</span><span class="pl pl-g" id="proj2">—</span></div>
+          <div class="rw" style="border:none;"><span style="font-size:11px;color:#777">Maand 3</span><span class="pl pl-g" id="proj3">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s" id="s-ads">
+      <div class="ph"><div><div class="pt">Ads &amp; ROAS</div><div class="ps">Meta + Google per land</div></div></div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Meta NL ROAS</div><div class="mv pos">4,8x</div></div>
+        <div class="mc"><div class="ml">Meta BE ROAS</div><div class="mv">3,1x</div></div>
+        <div class="mc"><div class="ml">Google NL ROAS</div><div class="mv">3,2x</div></div>
+        <div class="mc"><div class="ml">Google BE ROAS</div><div class="mv neg">1,8x</div></div>
+        <div class="mc"><div class="ml">Totaal spend</div><div class="mv warn">€19.400</div></div>
+        <div class="mc"><div class="ml">Gem. CPA</div><div class="mv">€21,90</div></div>
+      </div>
+      <div class="ab ab-r"><i class="ti ti-ad-off"></i><strong>Pauzeer BE Google</strong> — ROAS 1,8x, verliesgevend.</div>
+      <div class="ab ab-g"><i class="ti ti-trending-up"></i><strong>Meta NL verhogen</strong> — ROAS 4,8x stabiel, +30-40% per week.</div>
+      <div class="tw" style="margin-top:.75rem;">
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-brand-meta"></i>Meta Ads</div></div>
+          <div class="ir"><span class="il">NL spend</span><input type="number" id="m-nl-s" value="6840" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">NL omzet</span><input type="number" id="m-nl-r" value="32832" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">BE spend</span><input type="number" id="m-be-s" value="4560" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">BE omzet</span><input type="number" id="m-be-r" value="14136" oninput="calcAds()"></div>
+          <div class="dv"></div>
+          <div style="font-size:11px;">NL: <strong id="m-nl-roas">4,8x</strong> &nbsp;BE: <strong id="m-be-roas">3,1x</strong></div>
+        </div>
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-brand-google"></i>Google Ads</div></div>
+          <div class="ir"><span class="il">NL spend</span><input type="number" id="g-nl-s" value="4800" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">NL omzet</span><input type="number" id="g-nl-r" value="15360" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">BE spend</span><input type="number" id="g-be-s" value="3200" oninput="calcAds()"></div>
+          <div class="ir"><span class="il">BE omzet</span><input type="number" id="g-be-r" value="5760" oninput="calcAds()"></div>
+          <div class="dv"></div>
+          <div style="font-size:11px;">NL: <strong id="g-nl-roas">3,2x</strong> &nbsp;BE: <strong id="g-be-roas" style="color:#c00">1,8x</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s" id="s-orders">
+      <div class="ph">
+        <div><div class="pt">Orders</div><div class="ps" id="orders-sub">Live bestellingen</div></div>
+        <div style="display:flex;gap:2px;background:#f0f0ef;padding:2px;border-radius:7px;">
+          <button class="btn" style="padding:3px 8px;font-size:11px;" onclick="filterO('all')">Alle</button>
+          <button class="btn" style="padding:3px 8px;font-size:11px;border:none;background:none;" onclick="filterO('NL')">NL</button>
+          <button class="btn" style="padding:3px 8px;font-size:11px;border:none;background:none;" onclick="filterO('BE')">BE</button>
+          <button class="btn" style="padding:3px 8px;font-size:11px;border:none;background:none;" onclick="filterO('paid')">Betaald</button>
+          <button class="btn" style="padding:3px 8px;font-size:11px;border:none;background:none;" onclick="filterO('refunded')">Retour</button>
+        </div>
+      </div>
+      <div class="cd">
+        <div style="display:grid;grid-template-columns:56px 1fr 34px 68px 72px 52px;gap:5px;padding:4px 0;border-bottom:1px solid #e5e5e3;">
+          <span class="oh">#Order</span><span class="oh">Klant</span><span class="oh">Land</span><span class="oh" style="text-align:right;">Bedrag</span><span class="oh">Status</span><span class="oh">Datum</span>
+        </div>
+        <div id="orders-list" style="font-size:11px;color:#bbb;padding:10px 0;">Laden...</div>
+      </div>
+    </div>
+
+    <div class="s" id="s-countries">
+      <div class="ph"><div><div class="pt">Per land</div><div class="ps">NL vs BE live</div></div></div>
+      <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));">
+        <div class="mc"><div class="ml">NL omzet</div><div class="mv" id="nl-omzet">—</div><div class="ms" id="nl-cnt">—</div></div>
+        <div class="mc"><div class="ml">NL gem. order</div><div class="mv" id="nl-aov">—</div><div class="ms" id="nl-pct">—</div></div>
+        <div class="mc"><div class="ml">BE omzet</div><div class="mv" id="be-omzet">—</div><div class="ms" id="be-cnt">—</div></div>
+        <div class="mc"><div class="ml">BE gem. order</div><div class="mv" id="be-aov">—</div><div class="ms" id="be-pct">—</div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-world"></i>Alle landen</div></div>
+        <div id="all-countries" style="font-size:11px;color:#bbb;">Laden...</div>
+      </div>
+    </div>
+
+    <div class="s" id="s-products">
+      <div class="ph"><div><div class="pt">Producten</div><div class="ps">Top producten + listing velocity</div></div></div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Actieve listings</div><div class="mv" id="p-active">—</div></div>
+        <div class="mc"><div class="ml">Draft listings</div><div class="mv warn" id="p-draft">—</div></div>
+        <div class="mc"><div class="ml">Nieuw (periode)</div><div class="mv pos" id="p-new">—</div></div>
+        <div class="mc"><div class="ml">Top product</div><div class="mv" id="p-top" style="font-size:12px;">—</div></div>
+      </div>
+      <div class="tw">
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-trophy"></i>Top producten</div></div>
+          <div id="top-products" style="font-size:11px;color:#bbb;">Laden...</div>
+        </div>
+        <div class="cd">
+          <div class="ch"><div class="ct"><i class="ti ti-tag"></i>Listing velocity</div></div>
+          <div id="listing-velocity" style="margin-bottom:8px;"></div>
+          <div style="position:relative;height:110px;"><canvas id="listChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s" id="s-fulfillment">
+      <div class="ph"><div><div class="pt">Fulfillment</div><div class="ps">Leveringen en taken</div></div></div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Onvervuld</div><div class="mv" id="ff-open">—</div></div>
+        <div class="mc"><div class="ml">Verzonden</div><div class="mv" id="ff-shipped">—</div></div>
+        <div class="mc"><div class="ml">Geleverd</div><div class="mv pos" id="ff-delivered">—</div></div>
+        <div class="mc"><div class="ml">Geannuleerd</div><div class="mv" id="ff-cancelled">—</div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-users"></i>Partner taken</div></div>
+        <div id="ff-tasks">
+          <div class="rw"><div style="display:flex;align-items:center;gap:7px;"><input type="checkbox"><span style="font-size:11px">Supplier contacteren voor vertraagde orders</span></div><span class="pl pl-r">Urgent</span></div>
+          <div class="rw"><div style="display:flex;align-items:center;gap:7px;"><input type="checkbox"><span style="font-size:11px">Retouren verwerken</span></div><span class="pl pl-w">Deze week</span></div>
+        </div>
+        <div style="display:flex;gap:7px;margin-top:9px;">
+          <input type="text" id="ff-inp" placeholder="Taak toevoegen..." style="flex:1;font-size:11px;padding:6px 9px;border-radius:7px;border:1px solid #ddd;font-family:inherit;">
+          <button class="btn" onclick="addFFTask()"><i class="ti ti-plus"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="s" id="s-service">
+      <div class="ph"><div><div class="pt">Klantenservice</div><div class="ps">Live issues en retouren</div></div></div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Open issues</div><div class="mv warn" id="cs-open">—</div></div>
+        <div class="mc"><div class="ml">Retouren</div><div class="mv" id="cs-refunds">—</div></div>
+        <div class="mc"><div class="ml">Geannuleerd</div><div class="mv" id="cs-cancelled">—</div></div>
+        <div class="mc"><div class="ml">Retourrate</div><div class="mv" id="cs-rate">—</div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-list"></i>Actieve issues</div></div>
+        <div id="cs-list" style="font-size:11px;color:#bbb;">Laden...</div>
+      </div>
+    </div>
+
+    <div class="s" id="s-listings">
+      <div class="ph"><div><div class="pt">Listings</div><div class="ps">Draft naar actief velocity</div></div></div>
+      <div class="mg">
+        <div class="mc"><div class="ml">Actief</div><div class="mv" id="l-active">—</div></div>
+        <div class="mc"><div class="ml">Draft</div><div class="mv warn" id="l-draft">—</div></div>
+        <div class="mc"><div class="ml">Gearchiveerd</div><div class="mv" id="l-archived">—</div></div>
+        <div class="mc"><div class="ml">Nieuw (periode)</div><div class="mv pos" id="l-new">—</div></div>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-clock"></i>Draft listings</div></div>
+        <div id="draft-list" style="font-size:11px;color:#bbb;">Laden...</div>
+      </div>
+    </div>
+
+    <div class="s" id="s-bugs">
+      <div class="ph">
+        <div><div class="pt">Bugs &amp; fixes</div><div class="ps">Frontend + backend</div></div>
+        <button class="btn btn-p" onclick="addBug()" style="font-size:11px;"><i class="ti ti-plus"></i>Melden</button>
+      </div>
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-bug"></i>Actieve bugs</div></div>
+        <div id="bug-list">
+          <div class="rw"><div style="display:flex;align-items:center;gap:7px;"><span class="pl pl-r">Kritiek</span><div><div style="font-size:11px;font-weight:600">Checkout — betaling mislukt mobiel BE</div><div style="font-size:10px;color:#777">iDEAL redirect</div></div></div></div>
+          <div class="rw" style="border:none;"><div style="display:flex;align-items:center;gap:7px;"><span class="pl pl-w">Hoog</span><div><div style="font-size:11px;font-weight:600">Productfoto's traag mobiel</div><div style="font-size:10px;color:#777">Laadtijd &gt;4s</div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+var D = null;
+var charts = {};
+var oFilter = 'all';
+
+function nav(s) {
+  document.querySelectorAll('.s').forEach(function(e) { e.classList.remove('on'); });
+  document.querySelectorAll('.ni').forEach(function(e) { e.classList.remove('on'); });
+  var sec = document.getElementById('s-' + s);
+  var nav = document.getElementById('n-' + s);
+  if (sec) sec.classList.add('on');
+  if (nav) nav.classList.add('on');
+}
+
+function g(id) { return document.getElementById(id); }
+function set(id, v) { var e = g(id); if (e) e.textContent = v; }
+function html(id, v) { var e = g(id); if (e) e.innerHTML = v; }
+function fmt(n) { return '\u20ac' + Math.round(n).toLocaleString('nl-NL'); }
+function fmtD(n) { return '\u20ac' + Number(n).toFixed(2).replace('.', ','); }
+
+function cc(o) {
+  var addr = o.shipping_address || o.billing_address;
+  return addr && addr.country_code ? addr.country_code.toUpperCase() : '??';
+}
+
+function showOverlay(msg) {
+  var ov = g('overlay');
+  var msg_el = g('overlay-msg');
+  if (ov) ov.style.display = 'flex';
+  if (msg_el) msg_el.textContent = msg || 'Laden...';
+}
+
+function hideOverlay() {
+  var ov = g('overlay');
+  if (ov) ov.style.display = 'none';
+}
+
+function showError(msg) {
+  var div = document.createElement('div');
+  div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#fce4ec;color:#b71c1c;padding:12px 16px;border-radius:8px;font-size:12px;z-index:9999;max-width:340px;box-shadow:0 2px 8px rgba(0,0,0,0.1);';
+  div.textContent = msg;
+  document.body.appendChild(div);
+  setTimeout(function() { div.remove(); }, 8000);
+}
+
+async function loadData() {
+  var days = g('days-sel') ? parseInt(g('days-sel').value) : 30;
+  showOverlay('Orders ophalen van afgelopen ' + days + ' dagen...');
+  try {
+    var oRes = await fetch('/orders?days=' + days);
+    showOverlay('Producten laden...');
+    var pRes = await fetch('/products');
+
+    if (!oRes.ok) {
+      var err = await oRes.json().catch(function() { return {error: 'Status ' + oRes.status}; });
+      throw new Error(err.error || 'Status ' + oRes.status);
+    }
+
+    var oJson = await oRes.json();
+    var pJson = await pRes.json();
+
+    D = { orders: oJson.orders || [], products: pJson.products || [], days: days };
+
+    hideOverlay();
+    set('conn-label', 'Live');
+    var dot = g('conn-dot');
+    if (dot) dot.style.background = '#1D9E75';
+    set('conn-info', D.orders.length + ' orders');
+
+    processAll();
+
+  } catch(e) {
+    hideOverlay();
+    set('conn-label', 'Verbindingsfout');
+    var dot = g('conn-dot');
+    if (dot) dot.style.background = '#c00';
+    showError('Fout bij laden: ' + e.message);
+    console.error('loadData:', e);
+  }
+}
+
+function processAll() {
+  if (!D) return;
+  var orders = D.orders;
+  var products = D.products;
+  var days = D.days;
+  var byCc = {}, byDate = {}, byStatus = {}, byProd = {};
+  var totalRev = 0, refundRev = 0, refundCnt = 0, cancelCnt = 0;
+
+  orders.forEach(function(o) {
+    var c = cc(o);
+    var val = parseFloat(o.total_price) || 0;
+    var date = (o.created_at || '').substring(0, 10);
+    var status = o.financial_status || 'unknown';
+    totalRev += val;
+    if (status === 'refunded' || status === 'partially_refunded') { refundRev += val; refundCnt++; }
+    if (o.cancel_reason) cancelCnt++;
+    if (!byCc[c]) byCc[c] = { n: 0, rev: 0 };
+    byCc[c].n++; byCc[c].rev += val;
+    if (!byDate[date]) byDate[date] = 0; byDate[date] += val;
+    if (!byStatus[status]) byStatus[status] = 0; byStatus[status]++;
+    (o.line_items || []).forEach(function(item) {
+      if (!byProd[item.title]) byProd[item.title] = { qty: 0, rev: 0 };
+      byProd[item.title].qty += item.quantity;
+      byProd[item.title].rev += parseFloat(item.price) * item.quantity;
+    });
+  });
+
+  D.byCc = byCc; D.totalRev = totalRev; D.byDate = byDate; D.byStatus = byStatus; D.byProd = byProd;
+  D.refundRev = refundRev; D.refundCnt = refundCnt; D.cancelCnt = cancelCnt;
+
+  var paid = orders.filter(function(o) { return o.financial_status === 'paid'; });
+  var unique = new Set(orders.filter(function(o) { return o.customer; }).map(function(o) { return o.customer.id; })).size;
+  var aov = orders.length ? totalRev / orders.length : 0;
+
+  set('d-omzet', fmt(totalRev));
+  set('d-omzet-s', 'afgelopen ' + days + ' dagen');
+  set('d-orders', orders.length);
+  set('d-orders-s', paid.length + ' betaald');
+  set('d-aov', fmtD(aov));
+  set('d-klanten', unique);
+  set('d-refunds', fmt(refundRev));
+  set('d-refunds-s', refundCnt + ' retouren');
+  set('dash-sub', orders.length + ' orders · ' + days + ' dagen');
+
+  var lobox = g('live-omzet-box');
+  if (lobox) lobox.innerHTML = '<i class="ti ti-shopping-cart"></i> Live omzet: <strong>' + fmt(totalRev) + '</strong>';
+
+  var kpiPct = Math.min(100, Math.round(totalRev / 100000 * 100));
+  var kb = g('kpi-omzet-bar'); if (kb) kb.style.width = kpiPct + '%';
+  set('kpi-omzet-val', fmt(totalRev));
+
+  var retourPct = totalRev > 0 ? refundRev / totalRev * 100 : 0;
+  var rb = g('kpi-retour-bar'); if (rb) rb.style.width = Math.min(100, retourPct / 8 * 100) + '%';
+  set('kpi-retour-val', retourPct.toFixed(1) + '%');
+
+  renderNlBe(byCc, totalRev);
+  renderStatusChart(byStatus);
+  renderTrend(byDate);
+  renderOrders(orders);
+  renderCountries(byCc, totalRev);
+  renderProducts(products, byProd, days);
+  renderFulfillment(orders);
+  renderCS(orders, refundCnt, cancelCnt, totalRev, refundRev);
+}
+
+function renderNlBe(byCc, totalRev) {
+  var sorted = Object.entries(byCc).sort(function(a,b) { return b[1].rev - a[1].rev; }).slice(0,6);
+  var cols = { NL: '#185FA5', BE: '#1D9E75' };
+  html('nl-be-bars', sorted.map(function(entry) {
+    var c = entry[0], d = entry[1];
+    var pct = totalRev > 0 ? Math.round(d.rev / totalRev * 100) : 0;
+    var col = cols[c] || '#888';
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">' +
+      '<span style="font-size:11px;font-weight:700;width:22px;">' + c + '</span>' +
+      '<div class="bw"><div class="bf" style="width:' + pct + '%;background:' + col + '"></div></div>' +
+      '<span style="font-size:11px;">' + fmt(d.rev) + '</span>' +
+      '<span style="font-size:10px;color:#bbb;min-width:28px;">' + pct + '%</span></div>';
+  }).join(''));
+}
+
+function renderStatusChart(byStatus) {
+  var canvas = g('statusChart');
+  if (!canvas) return;
+  if (charts.status) { charts.status.destroy(); charts.status = null; }
+  var labels = Object.keys(byStatus);
+  var data = Object.values(byStatus);
+  var cols = { paid:'#1D9E75', pending:'#ef9f27', refunded:'#D85A30', partially_refunded:'#ba7517', cancelled:'#888', voided:'#b4b2a9' };
+  charts.status = new Chart(canvas.getContext('2d'), {
+    type: 'doughnut',
+    data: { labels: labels, datasets: [{ data: data, backgroundColor: labels.map(function(l) { return cols[l] || '#888'; }), borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false } } }
+  });
+  html('status-legend', labels.map(function(l, i) {
+    return '<span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:' + (cols[l]||'#888') + '"></span>' + l + ' ' + data[i] + '</span>';
+  }).join(''));
+}
+
+function renderTrend(byDate) {
+  var canvas = g('trendChart');
+  if (!canvas) return;
+  if (charts.trend) { charts.trend.destroy(); charts.trend = null; }
+  var sorted = Object.entries(byDate).sort(function(a,b) { return a[0].localeCompare(b[0]); });
+  charts.trend = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels: sorted.map(function(e) { return e[0].substring(5); }), datasets: [{ data: sorted.map(function(e) { return Math.round(e[1]); }), borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.07)', fill: true, tension: 0.3, borderWidth: 2, pointRadius: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 14 } }, y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 9 }, callback: function(v) { return '\u20ac' + v.toLocaleString('nl-NL'); } } } } }
+  });
+}
+
+function filterC(c) {
+  if (!D) return;
+  var orders = D.orders;
+  if (c === 'NL') orders = orders.filter(function(o) { return cc(o) === 'NL'; });
+  if (c === 'BE') orders = orders.filter(function(o) { return cc(o) === 'BE'; });
+  var rev = orders.reduce(function(s,o) { return s + (parseFloat(o.total_price)||0); }, 0);
+  set('d-omzet', fmt(rev));
+  set('d-orders', orders.length);
+  set('d-aov', orders.length ? fmtD(rev/orders.length) : '\u20ac0,00');
+}
+
+function filterO(f) {
+  oFilter = f;
+  if (!D) return;
+  var orders = D.orders;
+  if (f === 'NL') orders = orders.filter(function(o) { return cc(o) === 'NL'; });
+  else if (f === 'BE') orders = orders.filter(function(o) { return cc(o) === 'BE'; });
+  else if (f === 'paid') orders = orders.filter(function(o) { return o.financial_status === 'paid'; });
+  else if (f === 'refunded') orders = orders.filter(function(o) { return o.financial_status === 'refunded' || o.financial_status === 'partially_refunded'; });
+  renderOrders(orders);
+}
+
+function renderOrders(orders) {
+  set('orders-sub', orders.length + ' orders');
+  var stC = function(s) { return s === 'paid' ? 'pl-g' : (s === 'refunded' || s === 'partially_refunded') ? 'pl-r' : 'pl-w'; };
+  html('orders-list', orders.slice(0,80).map(function(o) {
+    var c = cc(o);
+    var pC = c === 'NL' ? 'pl-nl' : c === 'BE' ? 'pl-be' : 'pl-m';
+    var date = new Date(o.created_at).toLocaleDateString('nl-NL', {day:'numeric', month:'short'});
+    var name = o.customer ? ((o.customer.first_name||'') + ' ' + (o.customer.last_name||'')).trim() : 'Gast';
+    return '<div class="og">' +
+      '<span style="color:#888;">#' + o.order_number + '</span>' +
+      '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + name + '</span>' +
+      '<span class="pl ' + pC + '" style="font-size:9px;padding:1px 4px;">' + c + '</span>' +
+      '<span style="text-align:right;font-weight:700;">' + fmtD(o.total_price) + '</span>' +
+      '<span class="pl ' + stC(o.financial_status) + '" style="font-size:9px;">' + (o.financial_status||'?') + '</span>' +
+      '<span style="color:#bbb;">' + date + '</span></div>';
+  }).join('') || '<div style="padding:8px 0;color:#bbb;">Geen orders.</div>');
+}
+
+function renderCountries(byCc, totalRev) {
+  var nl = byCc['NL'] || {n:0,rev:0};
+  var be = byCc['BE'] || {n:0,rev:0};
+  set('nl-omzet', fmt(nl.rev)); set('nl-cnt', nl.n + ' orders');
+  set('nl-aov', nl.n ? fmtD(nl.rev/nl.n) : '\u20ac0,00');
+  set('nl-pct', totalRev > 0 ? Math.round(nl.rev/totalRev*100) + '% van totaal' : '0%');
+  set('be-omzet', fmt(be.rev)); set('be-cnt', be.n + ' orders');
+  set('be-aov', be.n ? fmtD(be.rev/be.n) : '\u20ac0,00');
+  set('be-pct', totalRev > 0 ? Math.round(be.rev/totalRev*100) + '% van totaal' : '0%');
+  var sorted = Object.entries(byCc).sort(function(a,b) { return b[1].rev - a[1].rev; });
+  var maxR = sorted.length ? sorted[0][1].rev : 1;
+  var cols = { NL:'#185FA5', BE:'#1D9E75' };
+  html('all-countries', sorted.map(function(entry) {
+    var c = entry[0], d = entry[1];
+    var pct = Math.round(d.rev/maxR*100);
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">' +
+      '<span style="font-size:11px;font-weight:700;width:26px;">' + c + '</span>' +
+      '<div class="bw"><div class="bf" style="width:' + pct + '%;background:' + (cols[c]||'#888') + '"></div></div>' +
+      '<span style="font-size:11px;">' + fmt(d.rev) + '</span>' +
+      '<span style="font-size:10px;color:#bbb;min-width:52px;">' + d.n + ' orders</span>' +
+      '<span style="font-size:10px;color:#bbb;">' + Math.round(d.rev/totalRev*100) + '%</span></div>';
+  }).join(''));
+}
+
+function renderProducts(products, byProd, days) {
+  var active = products.filter(function(p) { return p.status === 'active'; }).length;
+  var draft = products.filter(function(p) { return p.status === 'draft'; }).length;
+  var ago = new Date(Date.now() - days * 86400000);
+  var newP = products.filter(function(p) { return new Date(p.created_at) > ago; }).length;
+  set('p-active', active); set('p-draft', draft); set('p-new', newP);
+  set('l-active', active); set('l-draft', draft);
+  set('l-archived', products.filter(function(p) { return p.status === 'archived'; }).length);
+  set('l-new', newP);
+  var sorted = Object.entries(byProd).sort(function(a,b) { return b[1].rev - a[1].rev; });
+  if (sorted.length > 0) set('p-top', sorted[0][0].substring(0,22));
+  var maxR = sorted.length ? sorted[0][1].rev : 1;
+  html('top-products', sorted.slice(0,12).map(function(entry, i) {
+    var name = entry[0], d = entry[1];
+    var pct = Math.round(d.rev/maxR*100);
+    return '<div style="margin-bottom:9px;">' +
+      '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;">' +
+      '<span style="font-weight:' + (i<3?700:400) + ';max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (i+1) + '. ' + name + '</span>' +
+      '<span style="color:#777;">' + d.qty + 'x \u00b7 ' + fmt(d.rev) + '</span></div>' +
+      '<div style="height:4px;background:#f0f0ef;border-radius:2px;"><div style="width:' + pct + '%;height:100%;background:#185FA5;border-radius:2px;"></div></div></div>';
+  }).join('') || '<div style="color:#bbb;">Geen productdata.</div>');
+
+  html('listing-velocity', '<div style="display:flex;gap:7px;">' +
+    '<span class="pl pl-g">' + active + ' actief</span>' +
+    '<span class="pl pl-w">' + draft + ' draft</span>' +
+    '<span class="pl pl-b">' + newP + ' nieuw</span></div>');
+
+  html('draft-list', products.filter(function(p) { return p.status === 'draft'; }).slice(0,10).map(function(p) {
+    return '<div class="rw"><span style="font-size:11px;">' + p.title + '</span><span style="font-size:10px;color:#bbb;">' + new Date(p.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short'}) + '</span></div>';
+  }).join('') || '<div style="color:#bbb;padding:8px 0;">Geen draft listings.</div>');
+
+  var canvas = g('listChart');
+  if (canvas) {
+    if (charts.list) { charts.list.destroy(); charts.list = null; }
+    charts.list = new Chart(canvas.getContext('2d'), {
+      type: 'bar',
+      data: { labels: ['Actief','Draft','Nieuw'], datasets: [{ data: [active,draft,newP], backgroundColor: ['#1D9E75','#ef9f27','#185FA5'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 10 } } }, y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 10 } } } } }
+    });
+  }
+}
+
+function renderFulfillment(orders) {
+  var byF = {};
+  orders.forEach(function(o) { var s = o.fulfillment_status || 'unfulfilled'; if (!byF[s]) byF[s]=0; byF[s]++; });
+  set('ff-open', (byF['unfulfilled']||0) + (byF['partial']||0));
+  set('ff-shipped', (byF['in_transit']||0) + (byF['out_for_delivery']||0));
+  set('ff-delivered', (byF['delivered']||0) + (byF['fulfilled']||0));
+  set('ff-cancelled', orders.filter(function(o) { return o.cancel_reason; }).length);
+}
+
+function renderCS(orders, refundCnt, cancelCnt, totalRev, refundRev) {
+  var issues = orders.filter(function(o) { return o.financial_status === 'refunded' || o.financial_status === 'partially_refunded' || o.cancel_reason; });
+  set('cs-open', issues.length);
+  set('cs-refunds', refundCnt);
+  set('cs-cancelled', cancelCnt);
+  set('cs-rate', totalRev > 0 ? (refundRev/totalRev*100).toFixed(1) + '%' : '0%');
+  html('cs-list', issues.slice(0,15).map(function(o) {
+    var c = cc(o);
+    var pC = c === 'NL' ? 'pl-nl' : c === 'BE' ? 'pl-be' : 'pl-m';
+    var name = o.customer ? ((o.customer.first_name||'') + ' ' + (o.customer.last_name||'')).trim() : 'Gast';
+    var reason = o.cancel_reason ? 'Geannuleerd' : o.financial_status;
+    return '<div class="rw">' +
+      '<div style="display:flex;align-items:center;gap:7px;">' +
+      '<span class="pl pl-r" style="font-size:9px;">' + reason + '</span>' +
+      '<div><div style="font-size:11px;font-weight:600;">#' + o.order_number + ' \u2014 ' + name + '</div>' +
+      '<div style="font-size:10px;color:#777;">' + c + ' \u00b7 ' + fmtD(o.total_price) + '</div></div></div></div>';
+  }).join('') || '<div style="color:#bbb;padding:8px 0;">Geen issues.</div>');
+}
+
+function calcPL() {
+  var omzet = D ? D.totalRev : 0;
+  var inkoop = parseFloat((g('pl-inkoop')||{}).value)||0;
+  var meta = parseFloat((g('pl-meta')||{}).value)||0;
+  var google = parseFloat((g('pl-google')||{}).value)||0;
+  var shopify = parseFloat((g('pl-shopify')||{}).value)||420;
+  var overig = parseFloat((g('pl-overig')||{}).value)||0;
+  var kosten = inkoop+meta+google+shopify+overig;
+  var winst = omzet-kosten;
+  var marge = omzet > 0 ? (winst/omzet*100).toFixed(1) : 0;
+  var el = g('pl-winst'); if (el) { el.textContent = fmt(winst); el.style.color = winst >= 0 ? '#0a6e3e' : '#c00'; }
+  set('pl-marge', marge + '%');
+  set('cf-total', fmt(Math.max(0,winst)));
+  set('cf-invest', fmt(Math.max(0,winst)*0.6));
+  set('cf-reserve', fmt(Math.max(0,winst)*0.4));
+  set('proj1', fmt(omzet*1.2));
+  set('proj2', fmt(omzet*1.44));
+  set('proj3', fmt(omzet*1.728));
+  set('d-winst', fmt(winst));
+  set('d-marge', 'marge: ' + marge + '%');
+}
+
+function calcAds() {
+  var r = function(s,rv) { return s > 0 ? (rv/s).toFixed(1)+'x' : '0,0x'; };
+  set('m-nl-roas', r(+(g('m-nl-s')||{}).value||0, +(g('m-nl-r')||{}).value||0));
+  set('m-be-roas', r(+(g('m-be-s')||{}).value||0, +(g('m-be-r')||{}).value||0));
+  set('g-nl-roas', r(+(g('g-nl-s')||{}).value||0, +(g('g-nl-r')||{}).value||0));
+  var gbeS = +(g('g-be-s')||{}).value||0;
+  var gbeR = gbeS > 0 ? +(g('g-be-r')||{}).value||0 / gbeS : 0;
+  var el = g('g-be-roas'); if (el) { el.textContent = gbeR.toFixed(1)+'x'; el.style.color = gbeR < 2 ? '#c00' : gbeR < 3 ? '#b45' : '#0a6e3e'; }
+}
+
+function addFFTask() {
+  var inp = g('ff-inp'); if (!inp) return;
+  var val = inp.value.trim(); if (!val) return;
+  var div = document.createElement('div'); div.className = 'rw';
+  div.innerHTML = '<div style="display:flex;align-items:center;gap:7px;"><input type="checkbox"><span style="font-size:11px;">' + val + '</span></div><span class="pl pl-m">Nieuw</span>';
+  var list = g('ff-tasks'); if (list) list.appendChild(div);
+  inp.value = '';
+}
+
+function addBug() {
+  var name = prompt('Bug omschrijving:'); if (!name) return;
+  var div = document.createElement('div'); div.className = 'rw';
+  div.innerHTML = '<div style="display:flex;align-items:center;gap:7px;"><span class="pl pl-w">Nieuw</span><div><div style="font-size:11px;font-weight:600;">' + name + '</div><div style="font-size:10px;color:#777;">' + new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'short'}) + '</div></div></div>';
+  var list = g('bug-list'); if (list) list.appendChild(div);
+}
+
+window.addEventListener('load', function() { loadData(); });
+</script>
+</body>
+</html>
