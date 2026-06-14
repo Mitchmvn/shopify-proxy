@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-p{background:#185FA5;color:#fff;border-color:#185FA5}
 .btn-p:hover{background:#0c4480}
 .ir{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.il{font-size:11px;color:#666;width:120px;flex-shrink:0}
+.il{font-size:11px;color:#666;width:130px;flex-shrink:0}
 .ir input{flex:1;font-size:12px;padding:6px 9px;border-radius:7px;border:1px solid #ddd;background:#fafafa;color:#1a1a19;font-family:inherit}
 .ab{padding:8px 11px;border-radius:8px;font-size:11px;margin-bottom:6px;display:flex;align-items:flex-start;gap:7px;line-height:1.5}
 .ab i{font-size:13px;flex-shrink:0;margin-top:1px}
@@ -76,6 +76,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:12px}
 .spin{width:24px;height:24px;border:3px solid #e5e5e3;border-top-color:#185FA5;border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+/* ADS SPECIFIC */
+.platform-card{background:#fff;border:1px solid #e5e5e3;border-radius:10px;padding:1rem;margin-bottom:.75rem}
+.platform-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid #f0f0ef}
+.platform-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.platform-name{font-size:13px;font-weight:700;color:#1a1a19}
+.platform-status{margin-left:auto}
+.roas-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
+.roas-card{padding:10px;border-radius:8px;border:1px solid #e5e5e3}
+.roas-label{font-size:10px;color:#888;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.roas-val{font-size:22px;font-weight:700;line-height:1}
+.roas-sub{font-size:10px;color:#bbb;margin-top:3px}
+.roas-good{color:#0a6e3e;background:#f0faf5;border-color:#c8ebd9}
+.roas-warn{color:#b45;background:#fffbf0;border-color:#fde8b0}
+.roas-bad{color:#c00;background:#fff5f5;border-color:#fcc}
+.campaign-row{display:grid;grid-template-columns:1fr 70px 70px 60px 60px 70px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0ef;font-size:11px}
+.campaign-row:last-child{border-bottom:none}
+.campaign-hdr{font-size:10px;font-weight:600;color:#888}
+.signal{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 7px;border-radius:6px;font-weight:600}
+.signal-scale{background:#e8f5e9;color:#2e7d32}
+.signal-ok{background:#e3f2fd;color:#1565c0}
+.signal-watch{background:#fff3e0;color:#e65100}
+.signal-stop{background:#fce4ec;color:#c62828}
+.total-roas-bar{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:6px}
+.trb-label{font-size:11px;font-weight:600;width:100px;flex-shrink:0}
+.trb-track{flex:1;height:8px;background:#f0f0ef;border-radius:4px;overflow:hidden}
+.trb-fill{height:100%;border-radius:4px}
+.trb-val{font-size:13px;font-weight:700;min-width:40px;text-align:right}
+.trb-target{font-size:10px;color:#bbb;min-width:56px}
 </style>
 </head>
 <body>
@@ -118,6 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <main class="mn">
 
+    <!-- DASHBOARD -->
     <div class="s on" id="s-dashboard">
       <div class="ph">
         <div><div class="pt">Dashboard</div><div class="ps" id="dash-sub">Live Shopify data</div></div>
@@ -137,7 +166,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
       <div class="mg">
         <div class="mc"><div class="ml">Omzet</div><div class="mv" id="d-omzet">—</div><div class="ms" id="d-omzet-s">—</div></div>
-        <div class="mc"><div class="ml">Nettowinst</div><div class="mv pos" id="d-winst">—</div><div class="ms" id="d-marge">—</div></div>
+        <div class="mc"><div class="ml">Nettowinst</div><div class="mv pos" id="d-winst">—</div><div class="ms" id="d-marge">vul P&amp;L in</div></div>
         <div class="mc"><div class="ml">Orders</div><div class="mv" id="d-orders">—</div><div class="ms" id="d-orders-s">—</div></div>
         <div class="mc"><div class="ml">Gem. order</div><div class="mv" id="d-aov">—</div><div class="ms">per bestelling</div></div>
         <div class="mc"><div class="ml">Klanten</div><div class="mv" id="d-klanten">—</div><div class="ms">uniek</div></div>
@@ -160,13 +189,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- SCALING ENGINE -->
     <div class="s" id="s-scale">
       <div class="ph"><div><div class="pt">Scaling engine</div><div class="ps">Van €70k naar €1M+</div></div></div>
       <div class="cd">
         <div class="ch"><div class="ct"><i class="ti ti-rocket"></i>Jouw traject</div></div>
         <div class="scale-b" style="background:#f0f7ff;border:1px solid #b3d4f5;">
           <div style="width:9px;height:9px;border-radius:50%;background:#185FA5;flex-shrink:0"></div>
-          <div style="flex:1;font-size:12px;"><strong style="color:#185FA5">Je zit hier — €30k-€100k/maand</strong><br><span style="color:#555;font-size:11px;">Op €70k. Nog €30k naar het eerste milestone.</span></div>
+          <div style="flex:1;font-size:12px;"><strong style="color:#185FA5">Je zit hier — €30k-€100k/maand</strong><br><span style="color:#555;font-size:11px;">Op €70k. Nog €30k naar eerste milestone.</span></div>
           <div style="font-size:13px;font-weight:700;color:#185FA5">70%</div>
         </div>
         <div class="scale-b"><div style="width:9px;height:9px;border-radius:50%;background:#ef9f27;flex-shrink:0"></div><div style="flex:1;font-size:11px;"><strong>Volgende: €100k-€300k/maand</strong><br><span style="color:#555">Live Ads API + CS tool + winnaar systeem</span></div></div>
@@ -174,7 +204,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
       <div class="cd">
         <div class="ch"><div class="ct"><i class="ti ti-list-check"></i>Acties voor deze week</div></div>
-        <div class="ab ab-g"><i class="ti ti-trending-up"></i><div><strong>Meta budget +40% op top winnaar</strong> — ROAS stabiel boven 4x? Verhoog wekelijks budget 30-40%.</div></div>
+        <div class="ab ab-g"><i class="ti ti-trending-up"></i><div><strong>Meta budget +40% op top winnaar</strong> — ROAS stabiel boven 4x? Verhoog wekelijks 30-40%.</div></div>
         <div class="ab ab-r"><i class="ti ti-ad-off"></i><div><strong>Pauzeer campagnes onder 2x ROAS direct</strong> — budget herplaatsen naar winnaars.</div></div>
         <div class="ab ab-w"><i class="ti ti-flask"></i><div><strong>Start 2-3 nieuwe producttests</strong> — €150 testbudget, 7 dagen, drempel 2,5x ROAS.</div></div>
         <div class="ab ab-w"><i class="ti ti-headset"></i><div><strong>CS tool instellen voor €100k</strong> — Gorgias koppelen, AI beantwoordt 80% automatisch.</div></div>
@@ -190,6 +220,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- KPI -->
     <div class="s" id="s-kpi">
       <div class="ph"><div><div class="pt">KPI targets</div><div class="ps">Live performance vs doelen</div></div></div>
       <div class="cd">
@@ -201,10 +232,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="tw">
         <div class="cd">
           <div class="ch"><div class="ct"><i class="ti ti-speakerphone"></i>Ads KPI's</div></div>
-          <div class="kpi-row"><span class="kpi-n">ROAS totaal</span><div class="kpi-t"><div class="kpi-f" style="width:100%;background:#1D9E75"></div></div><span class="kpi-v" style="color:#0a6e3e">3,6x</span><span class="kpi-g">doel: 3,5x</span></div>
-          <div class="kpi-row"><span class="kpi-n">Meta ROAS</span><div class="kpi-t"><div class="kpi-f" style="width:100%;background:#1D9E75"></div></div><span class="kpi-v" style="color:#0a6e3e">4,2x</span><span class="kpi-g">doel: 3,5x</span></div>
-          <div class="kpi-row"><span class="kpi-n">Google ROAS</span><div class="kpi-t"><div class="kpi-f" style="width:54%;background:#ef9f27"></div></div><span class="kpi-v" style="color:#b45">2,7x</span><span class="kpi-g">doel: 3x</span></div>
-          <div class="kpi-row"><span class="kpi-n">CPA</span><div class="kpi-t"><div class="kpi-f" style="width:82%;background:#185FA5"></div></div><span class="kpi-v" style="color:#185FA5">€21,90</span><span class="kpi-g">max: €25</span></div>
+          <div class="kpi-row"><span class="kpi-n">ROAS totaal</span><div class="kpi-t"><div class="kpi-f" id="kpi-roas-bar" style="background:#1D9E75;width:0%"></div></div><span class="kpi-v" id="kpi-roas-val">—</span><span class="kpi-g">doel: 3,5x</span></div>
+          <div class="kpi-row"><span class="kpi-n">Meta ROAS</span><div class="kpi-t"><div class="kpi-f" id="kpi-meta-bar" style="background:#1D9E75;width:0%"></div></div><span class="kpi-v" id="kpi-meta-val">—</span><span class="kpi-g">doel: 3,5x</span></div>
+          <div class="kpi-row"><span class="kpi-n">Google ROAS</span><div class="kpi-t"><div class="kpi-f" id="kpi-google-bar" style="background:#ef9f27;width:0%"></div></div><span class="kpi-v" id="kpi-google-val">—</span><span class="kpi-g">doel: 3x</span></div>
+          <div class="kpi-row"><span class="kpi-n">CPA totaal</span><div class="kpi-t"><div class="kpi-f" id="kpi-cpa-bar" style="background:#185FA5;width:0%"></div></div><span class="kpi-v" id="kpi-cpa-val">—</span><span class="kpi-g">max: €25</span></div>
         </div>
         <div class="cd">
           <div class="ch"><div class="ct"><i class="ti ti-calendar"></i>Tijdlijn</div></div>
@@ -216,6 +247,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- FINANCE -->
     <div class="s" id="s-finance">
       <div class="ph"><div><div class="pt">P&amp;L &amp; cashflow</div><div class="ps">Live omzet + jouw kosten</div></div></div>
       <div class="tw">
@@ -223,15 +255,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <div class="ch"><div class="ct"><i class="ti ti-pencil"></i>Kosten invoeren</div><button class="btn btn-p" style="font-size:10px;" onclick="calcPL()">Bereken</button></div>
           <div class="ab ab-g" id="live-omzet-box"><i class="ti ti-shopping-cart"></i> Live omzet laden...</div>
           <div style="margin-top:8px;">
-            <div class="ir"><span class="il">Inkoop / COGS</span><input type="number" id="pl-inkoop" placeholder="0" oninput="calcPL()"></div>
-            <div class="ir"><span class="il">Meta Ads</span><input type="number" id="pl-meta" placeholder="0" oninput="calcPL()"></div>
-            <div class="ir"><span class="il">Google Ads</span><input type="number" id="pl-google" placeholder="0" oninput="calcPL()"></div>
-            <div class="ir"><span class="il">Shopify + apps</span><input type="number" id="pl-shopify" placeholder="420" oninput="calcPL()"></div>
-            <div class="ir"><span class="il">Overige kosten</span><input type="number" id="pl-overig" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Inkoop / COGS (€)</span><input type="number" id="pl-inkoop" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Meta Ads (€)</span><input type="number" id="pl-meta" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Google Ads (€)</span><input type="number" id="pl-google" placeholder="0" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Shopify + apps (€)</span><input type="number" id="pl-shopify" placeholder="420" oninput="calcPL()"></div>
+            <div class="ir"><span class="il">Overige kosten (€)</span><input type="number" id="pl-overig" placeholder="0" oninput="calcPL()"></div>
           </div>
           <div class="dv"></div>
           <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;"><span>Nettowinst</span><span id="pl-winst" style="color:#0a6e3e">—</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:11px;color:#777;margin-top:3px;"><span>Marge</span><span id="pl-marge">—</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#777;margin-top:3px;"><span>Nettomarge</span><span id="pl-marge">—</span></div>
         </div>
         <div class="cd">
           <div class="ch"><div class="ct"><i class="ti ti-cash"></i>Schaalbudget</div></div>
@@ -247,40 +279,140 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- ADS & ROAS -->
     <div class="s" id="s-ads">
-      <div class="ph"><div><div class="pt">Ads &amp; ROAS</div><div class="ps">Meta + Google per land</div></div></div>
-      <div class="mg">
-        <div class="mc"><div class="ml">Meta NL ROAS</div><div class="mv pos">4,8x</div></div>
-        <div class="mc"><div class="ml">Meta BE ROAS</div><div class="mv">3,1x</div></div>
-        <div class="mc"><div class="ml">Google NL ROAS</div><div class="mv">3,2x</div></div>
-        <div class="mc"><div class="ml">Google BE ROAS</div><div class="mv neg">1,8x</div></div>
-        <div class="mc"><div class="ml">Totaal spend</div><div class="mv warn">€19.400</div></div>
-        <div class="mc"><div class="ml">Gem. CPA</div><div class="mv">€21,90</div></div>
+      <div class="ph">
+        <div><div class="pt">Ads &amp; ROAS</div><div class="ps">Meta + Google · NL vs BE · via WeTracked</div></div>
+        <button class="btn btn-p" style="font-size:11px;" onclick="calcAds()"><i class="ti ti-calculator"></i> Bereken alles</button>
       </div>
-      <div class="ab ab-r"><i class="ti ti-ad-off"></i><strong>Pauzeer BE Google</strong> — ROAS 1,8x, verliesgevend.</div>
-      <div class="ab ab-g"><i class="ti ti-trending-up"></i><strong>Meta NL verhogen</strong> — ROAS 4,8x stabiel, +30-40% per week.</div>
-      <div class="tw" style="margin-top:.75rem;">
-        <div class="cd">
-          <div class="ch"><div class="ct"><i class="ti ti-brand-meta"></i>Meta Ads</div></div>
-          <div class="ir"><span class="il">NL spend</span><input type="number" id="m-nl-s" value="6840" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">NL omzet</span><input type="number" id="m-nl-r" value="32832" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">BE spend</span><input type="number" id="m-be-s" value="4560" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">BE omzet</span><input type="number" id="m-be-r" value="14136" oninput="calcAds()"></div>
-          <div class="dv"></div>
-          <div style="font-size:11px;">NL: <strong id="m-nl-roas">4,8x</strong> &nbsp;BE: <strong id="m-be-roas">3,1x</strong></div>
+
+      <!-- TOTAAL OVERZICHT -->
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i>Totaal overzicht — alle platforms</div></div>
+        <div style="margin-bottom:10px;">
+          <div class="total-roas-bar" style="background:#f0faf5;">
+            <span class="trb-label">Totaal ROAS</span>
+            <div class="trb-track"><div class="trb-fill" id="total-roas-bar" style="background:#1D9E75;width:0%"></div></div>
+            <span class="trb-val" id="total-roas-val" style="color:#0a6e3e">—</span>
+            <span class="trb-target">doel: 3,5x</span>
+          </div>
+          <div class="total-roas-bar" style="background:#f8f9fa;">
+            <span class="trb-label">Totaal spend</span>
+            <div class="trb-track"><div class="trb-fill" id="total-spend-bar" style="background:#185FA5;width:60%"></div></div>
+            <span class="trb-val" id="total-spend-val">—</span>
+            <span class="trb-target">deze periode</span>
+          </div>
+          <div class="total-roas-bar" style="background:#f8f9fa;">
+            <span class="trb-label">Totaal CPA</span>
+            <div class="trb-track"><div class="trb-fill" id="total-cpa-bar" style="background:#185FA5;width:0%"></div></div>
+            <span class="trb-val" id="total-cpa-val">—</span>
+            <span class="trb-target">max: €25</span>
+          </div>
         </div>
-        <div class="cd">
-          <div class="ch"><div class="ct"><i class="ti ti-brand-google"></i>Google Ads</div></div>
-          <div class="ir"><span class="il">NL spend</span><input type="number" id="g-nl-s" value="4800" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">NL omzet</span><input type="number" id="g-nl-r" value="15360" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">BE spend</span><input type="number" id="g-be-s" value="3200" oninput="calcAds()"></div>
-          <div class="ir"><span class="il">BE omzet</span><input type="number" id="g-be-r" value="5760" oninput="calcAds()"></div>
-          <div class="dv"></div>
-          <div style="font-size:11px;">NL: <strong id="g-nl-roas">3,2x</strong> &nbsp;BE: <strong id="g-be-roas" style="color:#c00">1,8x</strong></div>
+        <div id="ads-alerts"></div>
+      </div>
+
+      <!-- META ADS -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon" style="background:#e8f0fe;color:#0082FB;"><i class="ti ti-brand-meta"></i></div>
+          <div>
+            <div class="platform-name">Meta Ads</div>
+            <div style="font-size:10px;color:#888;">Facebook + Instagram · WeTracked gecorrigeerd</div>
+          </div>
+          <div class="platform-status"><span class="pl pl-g" id="meta-status">Invoer nodig</span></div>
+        </div>
+        <div class="roas-grid">
+          <div class="roas-card" id="meta-nl-card">
+            <div class="roas-label"><span class="pl pl-nl" style="font-size:9px;">NL</span></div>
+            <div class="roas-val" id="meta-nl-roas">—</div>
+            <div class="roas-sub" id="meta-nl-sub">ROAS</div>
+          </div>
+          <div class="roas-card" id="meta-be-card">
+            <div class="roas-label"><span class="pl pl-be" style="font-size:9px;">BE</span></div>
+            <div class="roas-val" id="meta-be-roas">—</div>
+            <div class="roas-sub" id="meta-be-sub">ROAS</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div>
+            <div style="font-size:10px;color:#888;margin-bottom:4px;">NL spend &amp; omzet</div>
+            <div class="ir" style="margin-bottom:4px;"><span class="il" style="width:70px;">Spend (€)</span><input type="number" id="meta-nl-s" placeholder="0" oninput="calcAds()"></div>
+            <div class="ir" style="margin-bottom:0;"><span class="il" style="width:70px;">Omzet (€)</span><input type="number" id="meta-nl-r" placeholder="0" oninput="calcAds()"></div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#888;margin-bottom:4px;">BE spend &amp; omzet</div>
+            <div class="ir" style="margin-bottom:4px;"><span class="il" style="width:70px;">Spend (€)</span><input type="number" id="meta-be-s" placeholder="0" oninput="calcAds()"></div>
+            <div class="ir" style="margin-bottom:0;"><span class="il" style="width:70px;">Omzet (€)</span><input type="number" id="meta-be-r" placeholder="0" oninput="calcAds()"></div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-bottom:6px;font-weight:600;">Campagnes</div>
+        <div style="display:grid;grid-template-columns:1fr 60px 60px 50px 50px 70px;gap:6px;padding:4px 0;border-bottom:1px solid #e5e5e3;">
+          <span class="campaign-hdr">Campagne</span><span class="campaign-hdr">Spend</span><span class="campaign-hdr">Omzet</span><span class="campaign-hdr">ROAS</span><span class="campaign-hdr">Land</span><span class="campaign-hdr">Actie</span>
+        </div>
+        <div id="meta-campaigns">
+          <div style="font-size:11px;color:#bbb;padding:8px 0;">Voeg campagnes toe hieronder</div>
+        </div>
+        <button class="btn" onclick="addCampaign('meta')" style="margin-top:8px;font-size:10px;"><i class="ti ti-plus"></i> Campagne toevoegen</button>
+      </div>
+
+      <!-- GOOGLE ADS -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon" style="background:#fce8e6;color:#EA4335;"><i class="ti ti-brand-google"></i></div>
+          <div>
+            <div class="platform-name">Google Ads</div>
+            <div style="font-size:10px;color:#888;">Shopping + Search · WeTracked gecorrigeerd</div>
+          </div>
+          <div class="platform-status"><span class="pl pl-g" id="google-status">Invoer nodig</span></div>
+        </div>
+        <div class="roas-grid">
+          <div class="roas-card" id="google-nl-card">
+            <div class="roas-label"><span class="pl pl-nl" style="font-size:9px;">NL</span></div>
+            <div class="roas-val" id="google-nl-roas">—</div>
+            <div class="roas-sub" id="google-nl-sub">ROAS</div>
+          </div>
+          <div class="roas-card" id="google-be-card">
+            <div class="roas-label"><span class="pl pl-be" style="font-size:9px;">BE</span></div>
+            <div class="roas-val" id="google-be-roas">—</div>
+            <div class="roas-sub" id="google-be-sub">ROAS</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div>
+            <div style="font-size:10px;color:#888;margin-bottom:4px;">NL spend &amp; omzet</div>
+            <div class="ir" style="margin-bottom:4px;"><span class="il" style="width:70px;">Spend (€)</span><input type="number" id="google-nl-s" placeholder="0" oninput="calcAds()"></div>
+            <div class="ir" style="margin-bottom:0;"><span class="il" style="width:70px;">Omzet (€)</span><input type="number" id="google-nl-r" placeholder="0" oninput="calcAds()"></div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#888;margin-bottom:4px;">BE spend &amp; omzet</div>
+            <div class="ir" style="margin-bottom:4px;"><span class="il" style="width:70px;">Spend (€)</span><input type="number" id="google-be-s" placeholder="0" oninput="calcAds()"></div>
+            <div class="ir" style="margin-bottom:0;"><span class="il" style="width:70px;">Omzet (€)</span><input type="number" id="google-be-r" placeholder="0" oninput="calcAds()"></div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-bottom:6px;font-weight:600;">Campagnes</div>
+        <div style="display:grid;grid-template-columns:1fr 60px 60px 50px 50px 70px;gap:6px;padding:4px 0;border-bottom:1px solid #e5e5e3;">
+          <span class="campaign-hdr">Campagne</span><span class="campaign-hdr">Spend</span><span class="campaign-hdr">Omzet</span><span class="campaign-hdr">ROAS</span><span class="campaign-hdr">Land</span><span class="campaign-hdr">Actie</span>
+        </div>
+        <div id="google-campaigns">
+          <div style="font-size:11px;color:#bbb;padding:8px 0;">Voeg campagnes toe hieronder</div>
+        </div>
+        <button class="btn" onclick="addCampaign('google')" style="margin-top:8px;font-size:10px;"><i class="ti ti-plus"></i> Campagne toevoegen</button>
+      </div>
+
+      <!-- ROAS VERGELIJKING CHART -->
+      <div class="cd">
+        <div class="ch"><div class="ct"><i class="ti ti-chart-bar"></i>ROAS vergelijking per platform per land</div></div>
+        <div style="position:relative;height:200px;"><canvas id="roasChart"></canvas></div>
+        <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;color:#777;">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#0082FB"></span>Meta</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#EA4335"></span>Google</span>
+          <span style="display:flex;align-items:center;gap:3px;border-left:2px dashed #888;padding-left:8px;">Drempel: 3,5x</span>
         </div>
       </div>
     </div>
 
+    <!-- ORDERS -->
     <div class="s" id="s-orders">
       <div class="ph">
         <div><div class="pt">Orders</div><div class="ps" id="orders-sub">Live bestellingen</div></div>
@@ -300,6 +432,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- PER LAND -->
     <div class="s" id="s-countries">
       <div class="ph"><div><div class="pt">Per land</div><div class="ps">NL vs BE live</div></div></div>
       <div class="mg" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));">
@@ -314,6 +447,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- PRODUCTEN -->
     <div class="s" id="s-products">
       <div class="ph"><div><div class="pt">Producten</div><div class="ps">Top producten + listing velocity</div></div></div>
       <div class="mg">
@@ -335,6 +469,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- FULFILLMENT -->
     <div class="s" id="s-fulfillment">
       <div class="ph"><div><div class="pt">Fulfillment</div><div class="ps">Leveringen en taken</div></div></div>
       <div class="mg">
@@ -356,6 +491,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- KLANTENSERVICE -->
     <div class="s" id="s-service">
       <div class="ph"><div><div class="pt">Klantenservice</div><div class="ps">Live issues en retouren</div></div></div>
       <div class="mg">
@@ -370,6 +506,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- LISTINGS -->
     <div class="s" id="s-listings">
       <div class="ph"><div><div class="pt">Listings</div><div class="ps">Draft naar actief velocity</div></div></div>
       <div class="mg">
@@ -384,6 +521,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
 
+    <!-- BUGS -->
     <div class="s" id="s-bugs">
       <div class="ph">
         <div><div class="pt">Bugs &amp; fixes</div><div class="ps">Frontend + backend</div></div>
@@ -405,14 +543,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 var D = null;
 var charts = {};
 var oFilter = 'all';
+var campaigns = { meta: [], google: [] };
 
 function nav(s) {
   document.querySelectorAll('.s').forEach(function(e) { e.classList.remove('on'); });
   document.querySelectorAll('.ni').forEach(function(e) { e.classList.remove('on'); });
   var sec = document.getElementById('s-' + s);
-  var nav = document.getElementById('n-' + s);
+  var ni = document.getElementById('n-' + s);
   if (sec) sec.classList.add('on');
-  if (nav) nav.classList.add('on');
+  if (ni) ni.classList.add('on');
 }
 
 function g(id) { return document.getElementById(id); }
@@ -420,30 +559,17 @@ function set(id, v) { var e = g(id); if (e) e.textContent = v; }
 function html(id, v) { var e = g(id); if (e) e.innerHTML = v; }
 function fmt(n) { return '\u20ac' + Math.round(n).toLocaleString('nl-NL'); }
 function fmtD(n) { return '\u20ac' + Number(n).toFixed(2).replace('.', ','); }
+function cc(o) { var a = o.shipping_address || o.billing_address; return a && a.country_code ? a.country_code.toUpperCase() : '??'; }
 
-function cc(o) {
-  var addr = o.shipping_address || o.billing_address;
-  return addr && addr.country_code ? addr.country_code.toUpperCase() : '??';
-}
-
-function showOverlay(msg) {
-  var ov = g('overlay');
-  var msg_el = g('overlay-msg');
-  if (ov) ov.style.display = 'flex';
-  if (msg_el) msg_el.textContent = msg || 'Laden...';
-}
-
-function hideOverlay() {
-  var ov = g('overlay');
-  if (ov) ov.style.display = 'none';
-}
+function showOverlay(msg) { var ov = g('overlay'); if (ov) ov.style.display = 'flex'; set('overlay-msg', msg || 'Laden...'); }
+function hideOverlay() { var ov = g('overlay'); if (ov) ov.style.display = 'none'; }
 
 function showError(msg) {
   var div = document.createElement('div');
-  div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#fce4ec;color:#b71c1c;padding:12px 16px;border-radius:8px;font-size:12px;z-index:9999;max-width:340px;box-shadow:0 2px 8px rgba(0,0,0,0.1);';
+  div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#fce4ec;color:#b71c1c;padding:12px 16px;border-radius:8px;font-size:12px;z-index:9999;max-width:340px;box-shadow:0 2px 8px rgba(0,0,0,.1);';
   div.textContent = msg;
   document.body.appendChild(div);
-  setTimeout(function() { div.remove(); }, 8000);
+  setTimeout(function() { if (div.parentNode) div.parentNode.removeChild(div); }, 8000);
 }
 
 async function loadData() {
@@ -453,46 +579,30 @@ async function loadData() {
     var oRes = await fetch('/orders?days=' + days);
     showOverlay('Producten laden...');
     var pRes = await fetch('/products');
-
-    if (!oRes.ok) {
-      var err = await oRes.json().catch(function() { return {error: 'Status ' + oRes.status}; });
-      throw new Error(err.error || 'Status ' + oRes.status);
-    }
-
+    if (!oRes.ok) { var err = await oRes.json().catch(function() { return {error: 'Status ' + oRes.status}; }); throw new Error(err.error || 'Status ' + oRes.status); }
     var oJson = await oRes.json();
     var pJson = await pRes.json();
-
     D = { orders: oJson.orders || [], products: pJson.products || [], days: days };
-
     hideOverlay();
     set('conn-label', 'Live');
-    var dot = g('conn-dot');
-    if (dot) dot.style.background = '#1D9E75';
-    set('conn-info', D.orders.length + ' orders');
-
+    var dot = g('conn-dot'); if (dot) dot.style.background = '#1D9E75';
+    set('conn-info', D.orders.length + ' orders · ' + days + 'd');
     processAll();
-
   } catch(e) {
     hideOverlay();
     set('conn-label', 'Verbindingsfout');
-    var dot = g('conn-dot');
-    if (dot) dot.style.background = '#c00';
-    showError('Fout bij laden: ' + e.message);
-    console.error('loadData:', e);
+    var dot = g('conn-dot'); if (dot) dot.style.background = '#c00';
+    showError('Fout: ' + e.message);
   }
 }
 
 function processAll() {
   if (!D) return;
-  var orders = D.orders;
-  var products = D.products;
-  var days = D.days;
+  var orders = D.orders, products = D.products, days = D.days;
   var byCc = {}, byDate = {}, byStatus = {}, byProd = {};
   var totalRev = 0, refundRev = 0, refundCnt = 0, cancelCnt = 0;
-
   orders.forEach(function(o) {
-    var c = cc(o);
-    var val = parseFloat(o.total_price) || 0;
+    var c = cc(o), val = parseFloat(o.total_price) || 0;
     var date = (o.created_at || '').substring(0, 10);
     var status = o.financial_status || 'unknown';
     totalRev += val;
@@ -508,35 +618,24 @@ function processAll() {
       byProd[item.title].rev += parseFloat(item.price) * item.quantity;
     });
   });
-
   D.byCc = byCc; D.totalRev = totalRev; D.byDate = byDate; D.byStatus = byStatus; D.byProd = byProd;
   D.refundRev = refundRev; D.refundCnt = refundCnt; D.cancelCnt = cancelCnt;
-
   var paid = orders.filter(function(o) { return o.financial_status === 'paid'; });
   var unique = new Set(orders.filter(function(o) { return o.customer; }).map(function(o) { return o.customer.id; })).size;
   var aov = orders.length ? totalRev / orders.length : 0;
-
-  set('d-omzet', fmt(totalRev));
-  set('d-omzet-s', 'afgelopen ' + days + ' dagen');
-  set('d-orders', orders.length);
-  set('d-orders-s', paid.length + ' betaald');
-  set('d-aov', fmtD(aov));
-  set('d-klanten', unique);
-  set('d-refunds', fmt(refundRev));
-  set('d-refunds-s', refundCnt + ' retouren');
-  set('dash-sub', orders.length + ' orders · ' + days + ' dagen');
-
+  set('d-omzet', fmt(totalRev)); set('d-omzet-s', 'afgelopen ' + days + ' dagen');
+  set('d-orders', orders.length); set('d-orders-s', paid.length + ' betaald');
+  set('d-aov', fmtD(aov)); set('d-klanten', unique);
+  set('d-refunds', fmt(refundRev)); set('d-refunds-s', refundCnt + ' retouren');
+  set('dash-sub', orders.length + ' orders \u00b7 ' + days + ' dagen');
   var lobox = g('live-omzet-box');
   if (lobox) lobox.innerHTML = '<i class="ti ti-shopping-cart"></i> Live omzet: <strong>' + fmt(totalRev) + '</strong>';
-
   var kpiPct = Math.min(100, Math.round(totalRev / 100000 * 100));
   var kb = g('kpi-omzet-bar'); if (kb) kb.style.width = kpiPct + '%';
   set('kpi-omzet-val', fmt(totalRev));
-
-  var retourPct = totalRev > 0 ? refundRev / totalRev * 100 : 0;
-  var rb = g('kpi-retour-bar'); if (rb) rb.style.width = Math.min(100, retourPct / 8 * 100) + '%';
-  set('kpi-retour-val', retourPct.toFixed(1) + '%');
-
+  var retPct = totalRev > 0 ? refundRev / totalRev * 100 : 0;
+  var rb = g('kpi-retour-bar'); if (rb) rb.style.width = Math.min(100, retPct / 8 * 100) + '%';
+  set('kpi-retour-val', retPct.toFixed(1) + '%');
   renderNlBe(byCc, totalRev);
   renderStatusChart(byStatus);
   renderTrend(byDate);
@@ -549,46 +648,27 @@ function processAll() {
 
 function renderNlBe(byCc, totalRev) {
   var sorted = Object.entries(byCc).sort(function(a,b) { return b[1].rev - a[1].rev; }).slice(0,6);
-  var cols = { NL: '#185FA5', BE: '#1D9E75' };
-  html('nl-be-bars', sorted.map(function(entry) {
-    var c = entry[0], d = entry[1];
-    var pct = totalRev > 0 ? Math.round(d.rev / totalRev * 100) : 0;
-    var col = cols[c] || '#888';
-    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">' +
-      '<span style="font-size:11px;font-weight:700;width:22px;">' + c + '</span>' +
-      '<div class="bw"><div class="bf" style="width:' + pct + '%;background:' + col + '"></div></div>' +
-      '<span style="font-size:11px;">' + fmt(d.rev) + '</span>' +
-      '<span style="font-size:10px;color:#bbb;min-width:28px;">' + pct + '%</span></div>';
+  var cols = { NL:'#185FA5', BE:'#1D9E75' };
+  html('nl-be-bars', sorted.map(function(e) {
+    var c = e[0], d = e[1], pct = totalRev > 0 ? Math.round(d.rev/totalRev*100) : 0;
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="font-size:11px;font-weight:700;width:22px;">' + c + '</span><div class="bw"><div class="bf" style="width:' + pct + '%;background:' + (cols[c]||'#888') + '"></div></div><span style="font-size:11px;">' + fmt(d.rev) + '</span><span style="font-size:10px;color:#bbb;min-width:28px;">' + pct + '%</span></div>';
   }).join(''));
 }
 
 function renderStatusChart(byStatus) {
-  var canvas = g('statusChart');
-  if (!canvas) return;
+  var canvas = g('statusChart'); if (!canvas) return;
   if (charts.status) { charts.status.destroy(); charts.status = null; }
-  var labels = Object.keys(byStatus);
-  var data = Object.values(byStatus);
+  var labels = Object.keys(byStatus), data = Object.values(byStatus);
   var cols = { paid:'#1D9E75', pending:'#ef9f27', refunded:'#D85A30', partially_refunded:'#ba7517', cancelled:'#888', voided:'#b4b2a9' };
-  charts.status = new Chart(canvas.getContext('2d'), {
-    type: 'doughnut',
-    data: { labels: labels, datasets: [{ data: data, backgroundColor: labels.map(function(l) { return cols[l] || '#888'; }), borderWidth: 0 }] },
-    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false } } }
-  });
-  html('status-legend', labels.map(function(l, i) {
-    return '<span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:' + (cols[l]||'#888') + '"></span>' + l + ' ' + data[i] + '</span>';
-  }).join(''));
+  charts.status = new Chart(canvas.getContext('2d'), { type:'doughnut', data:{ labels:labels, datasets:[{ data:data, backgroundColor:labels.map(function(l) { return cols[l]||'#888'; }), borderWidth:0 }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ display:false } } } });
+  html('status-legend', labels.map(function(l,i) { return '<span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:' + (cols[l]||'#888') + '"></span>' + l + ' ' + data[i] + '</span>'; }).join(''));
 }
 
 function renderTrend(byDate) {
-  var canvas = g('trendChart');
-  if (!canvas) return;
+  var canvas = g('trendChart'); if (!canvas) return;
   if (charts.trend) { charts.trend.destroy(); charts.trend = null; }
   var sorted = Object.entries(byDate).sort(function(a,b) { return a[0].localeCompare(b[0]); });
-  charts.trend = new Chart(canvas.getContext('2d'), {
-    type: 'line',
-    data: { labels: sorted.map(function(e) { return e[0].substring(5); }), datasets: [{ data: sorted.map(function(e) { return Math.round(e[1]); }), borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.07)', fill: true, tension: 0.3, borderWidth: 2, pointRadius: 2 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 14 } }, y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 9 }, callback: function(v) { return '\u20ac' + v.toLocaleString('nl-NL'); } } } } }
-  });
+  charts.trend = new Chart(canvas.getContext('2d'), { type:'line', data:{ labels:sorted.map(function(e) { return e[0].substring(5); }), datasets:[{ data:sorted.map(function(e) { return Math.round(e[1]); }), borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)', fill:true, tension:0.3, borderWidth:2, pointRadius:2 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ font:{ size:9 }, maxTicksLimit:14 } }, y:{ grid:{ color:'rgba(0,0,0,0.05)' }, ticks:{ font:{ size:9 }, callback:function(v) { return '\u20ac' + v.toLocaleString('nl-NL'); } } } } } });
 }
 
 function filterC(c) {
@@ -597,8 +677,7 @@ function filterC(c) {
   if (c === 'NL') orders = orders.filter(function(o) { return cc(o) === 'NL'; });
   if (c === 'BE') orders = orders.filter(function(o) { return cc(o) === 'BE'; });
   var rev = orders.reduce(function(s,o) { return s + (parseFloat(o.total_price)||0); }, 0);
-  set('d-omzet', fmt(rev));
-  set('d-orders', orders.length);
+  set('d-omzet', fmt(rev)); set('d-orders', orders.length);
   set('d-aov', orders.length ? fmtD(rev/orders.length) : '\u20ac0,00');
 }
 
@@ -617,23 +696,15 @@ function renderOrders(orders) {
   set('orders-sub', orders.length + ' orders');
   var stC = function(s) { return s === 'paid' ? 'pl-g' : (s === 'refunded' || s === 'partially_refunded') ? 'pl-r' : 'pl-w'; };
   html('orders-list', orders.slice(0,80).map(function(o) {
-    var c = cc(o);
-    var pC = c === 'NL' ? 'pl-nl' : c === 'BE' ? 'pl-be' : 'pl-m';
-    var date = new Date(o.created_at).toLocaleDateString('nl-NL', {day:'numeric', month:'short'});
+    var c = cc(o), pC = c === 'NL' ? 'pl-nl' : c === 'BE' ? 'pl-be' : 'pl-m';
+    var date = new Date(o.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short'});
     var name = o.customer ? ((o.customer.first_name||'') + ' ' + (o.customer.last_name||'')).trim() : 'Gast';
-    return '<div class="og">' +
-      '<span style="color:#888;">#' + o.order_number + '</span>' +
-      '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + name + '</span>' +
-      '<span class="pl ' + pC + '" style="font-size:9px;padding:1px 4px;">' + c + '</span>' +
-      '<span style="text-align:right;font-weight:700;">' + fmtD(o.total_price) + '</span>' +
-      '<span class="pl ' + stC(o.financial_status) + '" style="font-size:9px;">' + (o.financial_status||'?') + '</span>' +
-      '<span style="color:#bbb;">' + date + '</span></div>';
+    return '<div class="og"><span style="color:#888;">#' + o.order_number + '</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + name + '</span><span class="pl ' + pC + '" style="font-size:9px;padding:1px 4px;">' + c + '</span><span style="text-align:right;font-weight:700;">' + fmtD(o.total_price) + '</span><span class="pl ' + stC(o.financial_status) + '" style="font-size:9px;">' + (o.financial_status||'?') + '</span><span style="color:#bbb;">' + date + '</span></div>';
   }).join('') || '<div style="padding:8px 0;color:#bbb;">Geen orders.</div>');
 }
 
 function renderCountries(byCc, totalRev) {
-  var nl = byCc['NL'] || {n:0,rev:0};
-  var be = byCc['BE'] || {n:0,rev:0};
+  var nl = byCc['NL']||{n:0,rev:0}, be = byCc['BE']||{n:0,rev:0};
   set('nl-omzet', fmt(nl.rev)); set('nl-cnt', nl.n + ' orders');
   set('nl-aov', nl.n ? fmtD(nl.rev/nl.n) : '\u20ac0,00');
   set('nl-pct', totalRev > 0 ? Math.round(nl.rev/totalRev*100) + '% van totaal' : '0%');
@@ -643,63 +714,42 @@ function renderCountries(byCc, totalRev) {
   var sorted = Object.entries(byCc).sort(function(a,b) { return b[1].rev - a[1].rev; });
   var maxR = sorted.length ? sorted[0][1].rev : 1;
   var cols = { NL:'#185FA5', BE:'#1D9E75' };
-  html('all-countries', sorted.map(function(entry) {
-    var c = entry[0], d = entry[1];
-    var pct = Math.round(d.rev/maxR*100);
-    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">' +
-      '<span style="font-size:11px;font-weight:700;width:26px;">' + c + '</span>' +
-      '<div class="bw"><div class="bf" style="width:' + pct + '%;background:' + (cols[c]||'#888') + '"></div></div>' +
-      '<span style="font-size:11px;">' + fmt(d.rev) + '</span>' +
-      '<span style="font-size:10px;color:#bbb;min-width:52px;">' + d.n + ' orders</span>' +
-      '<span style="font-size:10px;color:#bbb;">' + Math.round(d.rev/totalRev*100) + '%</span></div>';
+  html('all-countries', sorted.map(function(e) {
+    var c = e[0], d = e[1], pct = Math.round(d.rev/maxR*100);
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;"><span style="font-size:11px;font-weight:700;width:26px;">' + c + '</span><div class="bw"><div class="bf" style="width:' + pct + '%;background:' + (cols[c]||'#888') + '"></div></div><span style="font-size:11px;">' + fmt(d.rev) + '</span><span style="font-size:10px;color:#bbb;min-width:52px;">' + d.n + ' orders</span><span style="font-size:10px;color:#bbb;">' + Math.round(d.rev/totalRev*100) + '%</span></div>';
   }).join(''));
 }
 
 function renderProducts(products, byProd, days) {
-  var active = products.filter(function(p) { return p.status === 'active'; }).length;
-  var draft = products.filter(function(p) { return p.status === 'draft'; }).length;
+  var active = products.filter(function(p) { return p.status==='active'; }).length;
+  var draft = products.filter(function(p) { return p.status==='draft'; }).length;
   var ago = new Date(Date.now() - days * 86400000);
   var newP = products.filter(function(p) { return new Date(p.created_at) > ago; }).length;
   set('p-active', active); set('p-draft', draft); set('p-new', newP);
   set('l-active', active); set('l-draft', draft);
-  set('l-archived', products.filter(function(p) { return p.status === 'archived'; }).length);
+  set('l-archived', products.filter(function(p) { return p.status==='archived'; }).length);
   set('l-new', newP);
   var sorted = Object.entries(byProd).sort(function(a,b) { return b[1].rev - a[1].rev; });
   if (sorted.length > 0) set('p-top', sorted[0][0].substring(0,22));
   var maxR = sorted.length ? sorted[0][1].rev : 1;
-  html('top-products', sorted.slice(0,12).map(function(entry, i) {
-    var name = entry[0], d = entry[1];
-    var pct = Math.round(d.rev/maxR*100);
-    return '<div style="margin-bottom:9px;">' +
-      '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;">' +
-      '<span style="font-weight:' + (i<3?700:400) + ';max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (i+1) + '. ' + name + '</span>' +
-      '<span style="color:#777;">' + d.qty + 'x \u00b7 ' + fmt(d.rev) + '</span></div>' +
-      '<div style="height:4px;background:#f0f0ef;border-radius:2px;"><div style="width:' + pct + '%;height:100%;background:#185FA5;border-radius:2px;"></div></div></div>';
-  }).join('') || '<div style="color:#bbb;">Geen productdata.</div>');
-
-  html('listing-velocity', '<div style="display:flex;gap:7px;">' +
-    '<span class="pl pl-g">' + active + ' actief</span>' +
-    '<span class="pl pl-w">' + draft + ' draft</span>' +
-    '<span class="pl pl-b">' + newP + ' nieuw</span></div>');
-
-  html('draft-list', products.filter(function(p) { return p.status === 'draft'; }).slice(0,10).map(function(p) {
+  html('top-products', sorted.slice(0,12).map(function(e, i) {
+    var name = e[0], d = e[1], pct = Math.round(d.rev/maxR*100);
+    return '<div style="margin-bottom:9px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;"><span style="font-weight:' + (i<3?700:400) + ';max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (i+1) + '. ' + name + '</span><span style="color:#777;">' + d.qty + 'x \u00b7 ' + fmt(d.rev) + '</span></div><div style="height:4px;background:#f0f0ef;border-radius:2px;"><div style="width:' + pct + '%;height:100%;background:#185FA5;border-radius:2px;"></div></div></div>';
+  }).join('') || '<div style="color:#bbb;">Geen data.</div>');
+  html('listing-velocity', '<div style="display:flex;gap:7px;"><span class="pl pl-g">' + active + ' actief</span><span class="pl pl-w">' + draft + ' draft</span><span class="pl pl-b">' + newP + ' nieuw</span></div>');
+  html('draft-list', products.filter(function(p) { return p.status==='draft'; }).slice(0,10).map(function(p) {
     return '<div class="rw"><span style="font-size:11px;">' + p.title + '</span><span style="font-size:10px;color:#bbb;">' + new Date(p.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short'}) + '</span></div>';
   }).join('') || '<div style="color:#bbb;padding:8px 0;">Geen draft listings.</div>');
-
   var canvas = g('listChart');
   if (canvas) {
     if (charts.list) { charts.list.destroy(); charts.list = null; }
-    charts.list = new Chart(canvas.getContext('2d'), {
-      type: 'bar',
-      data: { labels: ['Actief','Draft','Nieuw'], datasets: [{ data: [active,draft,newP], backgroundColor: ['#1D9E75','#ef9f27','#185FA5'], borderWidth: 0 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 10 } } }, y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 10 } } } } }
-    });
+    charts.list = new Chart(canvas.getContext('2d'), { type:'bar', data:{ labels:['Actief','Draft','Nieuw'], datasets:[{ data:[active,draft,newP], backgroundColor:['#1D9E75','#ef9f27','#185FA5'], borderWidth:0 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ font:{ size:10 } } }, y:{ grid:{ color:'rgba(0,0,0,0.05)' }, ticks:{ font:{ size:10 } } } } } });
   }
 }
 
 function renderFulfillment(orders) {
   var byF = {};
-  orders.forEach(function(o) { var s = o.fulfillment_status || 'unfulfilled'; if (!byF[s]) byF[s]=0; byF[s]++; });
+  orders.forEach(function(o) { var s = o.fulfillment_status||'unfulfilled'; if (!byF[s]) byF[s]=0; byF[s]++; });
   set('ff-open', (byF['unfulfilled']||0) + (byF['partial']||0));
   set('ff-shipped', (byF['in_transit']||0) + (byF['out_for_delivery']||0));
   set('ff-delivered', (byF['delivered']||0) + (byF['fulfilled']||0));
@@ -707,21 +757,14 @@ function renderFulfillment(orders) {
 }
 
 function renderCS(orders, refundCnt, cancelCnt, totalRev, refundRev) {
-  var issues = orders.filter(function(o) { return o.financial_status === 'refunded' || o.financial_status === 'partially_refunded' || o.cancel_reason; });
-  set('cs-open', issues.length);
-  set('cs-refunds', refundCnt);
-  set('cs-cancelled', cancelCnt);
+  var issues = orders.filter(function(o) { return o.financial_status==='refunded' || o.financial_status==='partially_refunded' || o.cancel_reason; });
+  set('cs-open', issues.length); set('cs-refunds', refundCnt); set('cs-cancelled', cancelCnt);
   set('cs-rate', totalRev > 0 ? (refundRev/totalRev*100).toFixed(1) + '%' : '0%');
   html('cs-list', issues.slice(0,15).map(function(o) {
-    var c = cc(o);
-    var pC = c === 'NL' ? 'pl-nl' : c === 'BE' ? 'pl-be' : 'pl-m';
+    var c = cc(o), pC = c==='NL'?'pl-nl':c==='BE'?'pl-be':'pl-m';
     var name = o.customer ? ((o.customer.first_name||'') + ' ' + (o.customer.last_name||'')).trim() : 'Gast';
     var reason = o.cancel_reason ? 'Geannuleerd' : o.financial_status;
-    return '<div class="rw">' +
-      '<div style="display:flex;align-items:center;gap:7px;">' +
-      '<span class="pl pl-r" style="font-size:9px;">' + reason + '</span>' +
-      '<div><div style="font-size:11px;font-weight:600;">#' + o.order_number + ' \u2014 ' + name + '</div>' +
-      '<div style="font-size:10px;color:#777;">' + c + ' \u00b7 ' + fmtD(o.total_price) + '</div></div></div></div>';
+    return '<div class="rw"><div style="display:flex;align-items:center;gap:7px;"><span class="pl pl-r" style="font-size:9px;">' + reason + '</span><div><div style="font-size:11px;font-weight:600;">#' + o.order_number + ' \u2014 ' + name + '</div><div style="font-size:10px;color:#777;">' + c + ' \u00b7 ' + fmtD(o.total_price) + '</div></div></div></div>';
   }).join('') || '<div style="color:#bbb;padding:8px 0;">Geen issues.</div>');
 }
 
@@ -735,26 +778,134 @@ function calcPL() {
   var kosten = inkoop+meta+google+shopify+overig;
   var winst = omzet-kosten;
   var marge = omzet > 0 ? (winst/omzet*100).toFixed(1) : 0;
-  var el = g('pl-winst'); if (el) { el.textContent = fmt(winst); el.style.color = winst >= 0 ? '#0a6e3e' : '#c00'; }
+  var el = g('pl-winst'); if (el) { el.textContent = fmt(winst); el.style.color = winst>=0?'#0a6e3e':'#c00'; }
   set('pl-marge', marge + '%');
-  set('cf-total', fmt(Math.max(0,winst)));
-  set('cf-invest', fmt(Math.max(0,winst)*0.6));
-  set('cf-reserve', fmt(Math.max(0,winst)*0.4));
-  set('proj1', fmt(omzet*1.2));
-  set('proj2', fmt(omzet*1.44));
-  set('proj3', fmt(omzet*1.728));
-  set('d-winst', fmt(winst));
-  set('d-marge', 'marge: ' + marge + '%');
+  set('cf-total', fmt(Math.max(0,winst))); set('cf-invest', fmt(Math.max(0,winst)*0.6)); set('cf-reserve', fmt(Math.max(0,winst)*0.4));
+  set('proj1', fmt(omzet*1.2)); set('proj2', fmt(omzet*1.44)); set('proj3', fmt(omzet*1.728));
+  set('d-winst', fmt(winst)); set('d-marge', 'marge: ' + marge + '%');
+  var kpiMargePct = Math.min(100, Math.round(parseFloat(marge)/25*100));
+  var kmb = g('kpi-marge-bar'); if (kmb) kmb.style.width = kpiMargePct + '%';
+  set('kpi-marge-val', marge + '%');
+}
+
+function roasClass(r) { return r >= 3.5 ? 'roas-good' : r >= 2 ? 'roas-warn' : r > 0 ? 'roas-bad' : ''; }
+function signal(r) {
+  if (r <= 0) return '<span class="signal signal-ok">Geen data</span>';
+  if (r >= 4) return '<span class="signal signal-scale">Schalen</span>';
+  if (r >= 3) return '<span class="signal signal-ok">Doorgaan</span>';
+  if (r >= 2) return '<span class="signal signal-watch">Monitor</span>';
+  return '<span class="signal signal-stop">Stoppen</span>';
 }
 
 function calcAds() {
-  var r = function(s,rv) { return s > 0 ? (rv/s).toFixed(1)+'x' : '0,0x'; };
-  set('m-nl-roas', r(+(g('m-nl-s')||{}).value||0, +(g('m-nl-r')||{}).value||0));
-  set('m-be-roas', r(+(g('m-be-s')||{}).value||0, +(g('m-be-r')||{}).value||0));
-  set('g-nl-roas', r(+(g('g-nl-s')||{}).value||0, +(g('g-nl-r')||{}).value||0));
-  var gbeS = +(g('g-be-s')||{}).value||0;
-  var gbeR = gbeS > 0 ? +(g('g-be-r')||{}).value||0 / gbeS : 0;
-  var el = g('g-be-roas'); if (el) { el.textContent = gbeR.toFixed(1)+'x'; el.style.color = gbeR < 2 ? '#c00' : gbeR < 3 ? '#b45' : '#0a6e3e'; }
+  var mnls = parseFloat((g('meta-nl-s')||{}).value)||0;
+  var mnlr = parseFloat((g('meta-nl-r')||{}).value)||0;
+  var mbes = parseFloat((g('meta-be-s')||{}).value)||0;
+  var mber = parseFloat((g('meta-be-r')||{}).value)||0;
+  var gnls = parseFloat((g('google-nl-s')||{}).value)||0;
+  var gnlr = parseFloat((g('google-nl-r')||{}).value)||0;
+  var gbes = parseFloat((g('google-be-s')||{}).value)||0;
+  var gber = parseFloat((g('google-be-r')||{}).value)||0;
+
+  var metaNlRoas = mnls > 0 ? mnlr/mnls : 0;
+  var metaBeRoas = mbes > 0 ? mber/mbes : 0;
+  var googleNlRoas = gnls > 0 ? gnlr/gnls : 0;
+  var googleBeRoas = gbes > 0 ? gber/gbes : 0;
+
+  var totalSpend = mnls + mbes + gnls + gbes;
+  var totalRev = mnlr + mber + gnlr + gber;
+  var totalRoas = totalSpend > 0 ? totalRev/totalSpend : 0;
+  var totalOrders = D ? D.orders.length : 1;
+  var cpa = totalOrders > 0 ? totalSpend/totalOrders : 0;
+
+  // Update ROAS cards
+  function updateCard(cardId, valId, subId, roas) {
+    var card = g(cardId), val = g(valId), sub = g(subId);
+    if (!card || !val) return;
+    card.className = 'roas-card ' + roasClass(roas);
+    val.textContent = roas > 0 ? roas.toFixed(1) + 'x' : '—';
+    if (sub) sub.innerHTML = roas > 0 ? 'ROAS ' + signal(roas) : 'ROAS — geen data';
+  }
+  updateCard('meta-nl-card', 'meta-nl-roas', 'meta-nl-sub', metaNlRoas);
+  updateCard('meta-be-card', 'meta-be-roas', 'meta-be-sub', metaBeRoas);
+  updateCard('google-nl-card', 'google-nl-roas', 'google-nl-sub', googleNlRoas);
+  updateCard('google-be-card', 'google-be-roas', 'google-be-sub', googleBeRoas);
+
+  // Platform status
+  var metaRoas = (mnls+mbes) > 0 ? (mnlr+mber)/(mnls+mbes) : 0;
+  var googleRoas = (gnls+gbes) > 0 ? (gnlr+gber)/(gnls+gbes) : 0;
+  var ms = g('meta-status'); if (ms) { ms.className = 'pl ' + (metaRoas>=3.5?'pl-g':metaRoas>=2?'pl-w':'pl-r'); ms.textContent = metaRoas>0?metaRoas.toFixed(1)+'x ROAS':'Invoer nodig'; }
+  var gs = g('google-status'); if (gs) { gs.className = 'pl ' + (googleRoas>=3?'pl-g':googleRoas>=2?'pl-w':'pl-r'); gs.textContent = googleRoas>0?googleRoas.toFixed(1)+'x ROAS':'Invoer nodig'; }
+
+  // Totaal
+  var trb = g('total-roas-bar'); if (trb) trb.style.width = Math.min(100, totalRoas/5*100) + '%';
+  set('total-roas-val', totalRoas > 0 ? totalRoas.toFixed(1) + 'x' : '—');
+  set('total-spend-val', totalSpend > 0 ? fmt(totalSpend) : '—');
+  var cpaPct = cpa > 0 ? Math.min(100, cpa/25*100) : 0;
+  var cpb = g('total-cpa-bar'); if (cpb) cpb.style.width = cpaPct + '%';
+  set('total-cpa-val', cpa > 0 ? fmtD(cpa) : '—');
+
+  // KPI update
+  var rPct = Math.min(100, totalRoas/5*100);
+  var rkb = g('kpi-roas-bar'); if (rkb) { rkb.style.width = rPct + '%'; rkb.style.background = totalRoas>=3.5?'#1D9E75':'#ef9f27'; }
+  set('kpi-roas-val', totalRoas > 0 ? totalRoas.toFixed(1) + 'x' : '—');
+  var mkb = g('kpi-meta-bar'); if (mkb) { mkb.style.width = Math.min(100,metaRoas/5*100) + '%'; mkb.style.background = metaRoas>=3.5?'#1D9E75':'#ef9f27'; }
+  set('kpi-meta-val', metaRoas > 0 ? metaRoas.toFixed(1) + 'x' : '—');
+  var gkb = g('kpi-google-bar'); if (gkb) { gkb.style.width = Math.min(100,googleRoas/5*100) + '%'; gkb.style.background = googleRoas>=3?'#1D9E75':'#ef9f27'; }
+  set('kpi-google-val', googleRoas > 0 ? googleRoas.toFixed(1) + 'x' : '—');
+  var ckb = g('kpi-cpa-bar'); if (ckb) { ckb.style.width = Math.min(100,cpa/25*100) + '%'; ckb.style.background = cpa<=20?'#1D9E75':cpa<=25?'#ef9f27':'#D85A30'; }
+  set('kpi-cpa-val', cpa > 0 ? fmtD(cpa) : '—');
+
+  // Alerts
+  var alerts = [];
+  if (googleBeRoas > 0 && googleBeRoas < 2) alerts.push('<div class="ab ab-r"><i class="ti ti-ad-off"></i><strong>Google BE pauzeren</strong> — ROAS ' + googleBeRoas.toFixed(1) + 'x, verliesgevend. Budget herplaatsen naar Meta NL.</div>');
+  if (metaNlRoas >= 4) alerts.push('<div class="ab ab-g"><i class="ti ti-trending-up"></i><strong>Meta NL budget verhogen</strong> — ROAS ' + metaNlRoas.toFixed(1) + 'x. Veilig +30-40% per week opschalen.</div>');
+  if (metaBeRoas > 0 && metaBeRoas < 2) alerts.push('<div class="ab ab-r"><i class="ti ti-alert-triangle"></i><strong>Meta BE onder drempel</strong> — ROAS ' + metaBeRoas.toFixed(1) + 'x. Campagnes controleren.</div>');
+  if (googleNlRoas >= 3.5) alerts.push('<div class="ab ab-g"><i class="ti ti-trending-up"></i><strong>Google NL presteert goed</strong> — ROAS ' + googleNlRoas.toFixed(1) + 'x. Shopping budget verhogen.</div>');
+  if (totalSpend > 0 && totalRoas < 2) alerts.push('<div class="ab ab-r"><i class="ti ti-flame"></i><strong>Totaal ROAS kritiek laag</strong> — ' + totalRoas.toFixed(1) + 'x. Direct bijsturen nodig.</div>');
+  html('ads-alerts', alerts.join('') || (totalSpend > 0 ? '<div class="ab ab-g"><i class="ti ti-check"></i>Alles binnen normaal — geen actie vereist.</div>' : '<div style="font-size:11px;color:#bbb;">Vul spend en omzet in per platform voor analyses.</div>'));
+
+  // ROAS chart
+  updateRoasChart([metaNlRoas, metaBeRoas, googleNlRoas, googleBeRoas]);
+}
+
+function updateRoasChart(vals) {
+  var canvas = g('roasChart'); if (!canvas) return;
+  if (charts.roas) { charts.roas.destroy(); charts.roas = null; }
+  charts.roas = new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: { labels:['Meta NL','Meta BE','Google NL','Google BE'], datasets:[
+      { data:vals, backgroundColor:['#0082FB','#0082FB','#EA4335','#EA4335'], borderWidth:0 }
+    ]},
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, annotation:{ annotations:{ line1:{ type:'line', yMin:3.5, yMax:3.5, borderColor:'#888', borderWidth:1, borderDash:[4,4] } } } }, scales:{ x:{ grid:{ display:false }, ticks:{ font:{ size:11 } } }, y:{ grid:{ color:'rgba(0,0,0,0.05)' }, ticks:{ font:{ size:11 }, callback:function(v) { return v+'x'; } }, min:0, suggestedMax:6 } } }
+  });
+}
+
+function addCampaign(platform) {
+  var name = prompt('Campagnenaam:'); if (!name) return;
+  var spend = parseFloat(prompt('Spend (€):'))||0;
+  var rev = parseFloat(prompt('Omzet (€):'))||0;
+  var land = prompt('Land (NL/BE/BOTH):') || 'NL';
+  var roas = spend > 0 ? rev/spend : 0;
+  campaigns[platform].push({ name:name, spend:spend, rev:rev, land:land.toUpperCase(), roas:roas });
+  renderCampaigns(platform);
+}
+
+function renderCampaigns(platform) {
+  var list = campaigns[platform];
+  var el = g(platform + '-campaigns');
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<div style="font-size:11px;color:#bbb;padding:8px 0;">Voeg campagnes toe hieronder</div>'; return; }
+  el.innerHTML = list.map(function(c, i) {
+    var roasColor = c.roas >= 3.5 ? '#0a6e3e' : c.roas >= 2 ? '#b45' : '#c00';
+    return '<div style="display:grid;grid-template-columns:1fr 60px 60px 50px 50px 70px;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0ef;font-size:11px;">' +
+      '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">' + c.name + '</span>' +
+      '<span>' + fmt(c.spend) + '</span>' +
+      '<span>' + fmt(c.rev) + '</span>' +
+      '<span style="font-weight:700;color:' + roasColor + '">' + (c.roas>0?c.roas.toFixed(1)+'x':'—') + '</span>' +
+      '<span class="pl ' + (c.land==='NL'?'pl-nl':'pl-be') + '" style="font-size:9px;">' + c.land + '</span>' +
+      signal(c.roas) + '</div>';
+  }).join('');
 }
 
 function addFFTask() {
