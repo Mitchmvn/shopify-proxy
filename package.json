@@ -1,12 +1,8 @@
 {
-  "name": "shopify-proxy",
-  "version": "1.0.0",
-  "description": "Shopify API proxy for Luxavo Command Center",
+  "name": "vijgen-proxy",
+  "version": "2.0.0",
+  "description": "Shopify API proxy for Vijgen Command Center",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18.0.0" }
 }

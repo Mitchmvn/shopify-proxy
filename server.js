@@ -3,118 +3,71 @@ const https = require('https');
 const url = require('url');
 
 const PORT = process.env.PORT || 3000;
-const ALLOWED_STORE = process.env.SHOPIFY_STORE || 'luxavo-shop.myshopify.com';
-const SECRET = process.env.SHOPIFY_SECRET || '';
+const STORE = process.env.SHOPIFY_STORE || 'luxavo-shop.myshopify.com';
+const TOKEN = process.env.SHOPIFY_TOKEN || '';
 
-const CORS_HEADERS = {
+const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, X-Shopify-Token',
   'Content-Type': 'application/json'
 };
 
-function shopifyRequest(path, token, callback) {
-  const options = {
-    hostname: ALLOWED_STORE,
+function shopifyGet(path, token, cb) {
+  const opts = {
+    hostname: STORE,
     path: `/admin/api/2024-01${path}`,
     method: 'GET',
-    headers: {
-      'X-Shopify-Access-Token': token,
-      'Content-Type': 'application/json'
-    }
+    headers: { 'X-Shopify-Access-Token': token, 'Content-Type': 'application/json' }
   };
-  const req = https.request(options, (res) => {
-    let data = '';
-    res.on('data', chunk => data += chunk);
-    res.on('end', () => callback(null, res.statusCode, data));
+  const req = https.request(opts, res => {
+    let d = '';
+    res.on('data', c => d += c);
+    res.on('end', () => cb(null, res.statusCode, d));
   });
-  req.on('error', (e) => callback(e));
+  req.on('error', e => cb(e));
   req.end();
 }
 
-const server = http.createServer((req, res) => {
-  if (req.method === 'OPTIONS') {
-    res.writeHead(200, CORS_HEADERS);
-    res.end();
+http.createServer((req, res) => {
+  if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+
+  const p = url.parse(req.url, true);
+  const path = p.pathname;
+  const token = TOKEN || req.headers['x-shopify-token'] || p.query.token;
+
+  const send = (status, data) => {
+    res.writeHead(status, CORS);
+    res.end(typeof data === 'string' ? data : JSON.stringify(data));
+  };
+
+  if (!token) { send(401, { error: 'No token — set SHOPIFY_TOKEN in Railway variables' }); return; }
+
+  if (path === '/health') {
+    send(200, { status: 'ok', store: STORE, tokenConfigured: !!TOKEN });
     return;
   }
 
-  const parsed = url.parse(req.url, true);
-  const pathname = parsed.pathname;
-  const token = req.headers['x-shopify-token'] || parsed.query.token;
+  const days = p.query.days || 30;
+  const since = new Date(Date.now() - days * 86400000).toISOString();
 
-  if (!token) {
-    res.writeHead(401, CORS_HEADERS);
-    res.end(JSON.stringify({ error: 'No token provided' }));
-    return;
-  }
+  const routes = {
+    '/orders': `/orders.json?status=any&created_at_min=${since}&limit=250&fields=id,order_number,total_price,subtotal_price,financial_status,fulfillment_status,created_at,shipping_address,billing_address,line_items,customer,cancel_reason,refunds`,
+    '/products': `/products.json?limit=250&fields=id,title,status,variants,created_at,updated_at,published_at,product_type,vendor`,
+    '/customers': `/customers/count.json`,
+    '/shop': `/shop.json`,
+  };
 
-  // Health check
-  if (pathname === '/health') {
-    res.writeHead(200, CORS_HEADERS);
-    res.end(JSON.stringify({ status: 'ok', store: ALLOWED_STORE }));
-    return;
-  }
+  const apiPath = routes[path];
+  if (!apiPath) { send(404, { error: 'Endpoint not found' }); return; }
 
-  // Orders
-  if (pathname === '/orders') {
-    const days = parsed.query.days || 30;
-    const since = new Date(Date.now() - days * 86400000).toISOString();
-    const limit = parsed.query.limit || 250;
-    const apiPath = `/orders.json?status=any&created_at_min=${since}&limit=${limit}&fields=id,order_number,total_price,subtotal_price,financial_status,fulfillment_status,created_at,shipping_address,billing_address,line_items,customer,cancel_reason,refunds`;
-    shopifyRequest(apiPath, token, (err, status, data) => {
-      if (err) { res.writeHead(500, CORS_HEADERS); res.end(JSON.stringify({ error: err.message })); return; }
-      res.writeHead(status, CORS_HEADERS);
-      res.end(data);
-    });
-    return;
-  }
+  shopifyGet(apiPath, token, (err, status, data) => {
+    if (err) { send(500, { error: err.message }); return; }
+    send(status, data);
+  });
 
-  // Products
-  if (pathname === '/products') {
-    shopifyRequest(`/products.json?limit=250&fields=id,title,status,variants,created_at,updated_at,published_at,product_type`, token, (err, status, data) => {
-      if (err) { res.writeHead(500, CORS_HEADERS); res.end(JSON.stringify({ error: err.message })); return; }
-      res.writeHead(status, CORS_HEADERS);
-      res.end(data);
-    });
-    return;
-  }
-
-  // Customers count
-  if (pathname === '/customers') {
-    shopifyRequest(`/customers/count.json`, token, (err, status, data) => {
-      if (err) { res.writeHead(500, CORS_HEADERS); res.end(JSON.stringify({ error: err.message })); return; }
-      res.writeHead(status, CORS_HEADERS);
-      res.end(data);
-    });
-    return;
-  }
-
-  // Refunds / returns
-  if (pathname === '/refunds') {
-    const since = new Date(Date.now() - 30 * 86400000).toISOString();
-    shopifyRequest(`/orders.json?status=any&created_at_min=${since}&limit=250&fields=id,order_number,refunds,total_price,financial_status`, token, (err, status, data) => {
-      if (err) { res.writeHead(500, CORS_HEADERS); res.end(JSON.stringify({ error: err.message })); return; }
-      res.writeHead(status, CORS_HEADERS);
-      res.end(data);
-    });
-    return;
-  }
-
-  // Shop info
-  if (pathname === '/shop') {
-    shopifyRequest(`/shop.json`, token, (err, status, data) => {
-      if (err) { res.writeHead(500, CORS_HEADERS); res.end(JSON.stringify({ error: err.message })); return; }
-      res.writeHead(status, CORS_HEADERS);
-      res.end(data);
-    });
-    return;
-  }
-
-  res.writeHead(404, CORS_HEADERS);
-  res.end(JSON.stringify({ error: 'Endpoint not found' }));
-});
-
-server.listen(PORT, () => {
-  console.log(`Shopify proxy running on port ${PORT} for store: ${ALLOWED_STORE}`);
+}).listen(PORT, () => {
+  console.log(`Vijgen Command Center proxy — port ${PORT}`);
+  console.log(`Store: ${STORE}`);
+  console.log(`Token: ${TOKEN ? 'configured ✓' : 'NOT SET — add SHOPIFY_TOKEN to Railway variables'}`);
 });
